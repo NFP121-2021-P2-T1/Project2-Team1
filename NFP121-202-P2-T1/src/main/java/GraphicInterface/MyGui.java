@@ -6,24 +6,29 @@
 package GraphicInterface;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 public class MyGui extends JFrame {
 
     private JMenuBar menubar;
-
+    private JPanel panel;
     public MyGui() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         //______________________________________________________________________        
         menubar = new Menubar().getMenubar();
         setJMenuBar(menubar);
         //______________________________________________________________________
-        setPreferredSize(new Dimension(500, 500));
+        panel = (new PatternPanel()).getMainPanel();
+        add(panel);
+        
+        setLayout(new GridBagLayout());
+        setPreferredSize(new Dimension(800, 600));
         setBackground(new Color(251, 252, 251));
         pack();
         setVisible(true);
+        setLocationRelativeTo(null);
        
-
     }
 
     public static void main(String[] args) {

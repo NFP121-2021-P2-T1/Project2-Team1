@@ -1,6 +1,7 @@
 package GraphicInterface;
 
 import java.awt.*;
+import java.io.File;
 import javax.swing.*;
 
 /**
@@ -18,6 +19,8 @@ public class Menubar {
     private JMenu lookAndFeel;
     private JMenuItem fall;
     private JMenuItem about, copyright;
+    
+    
 
     public Menubar() {
         menubar = new JMenuBar();
@@ -25,7 +28,7 @@ public class Menubar {
         file = new JMenu("File");
         edit = new JMenu("Edit");
         view = new JMenu("View");
-        help = new JMenu("Help");
+        help = new JMenu("Help"); 
         //______________________________________________________________________
         newFile = new JMenuItem("New File");
         newProject = new JMenuItem("New Project");
@@ -49,13 +52,23 @@ public class Menubar {
         about = new JMenuItem("About");
         copyright = new JMenuItem("Copyright");
         //______________________________________________________________________
+        //Set icon to some JMenuItem
+        newFile.setIcon(new ImageIcon("icons\\newFile.png"));
+        newProject.setIcon(new ImageIcon("icons\\newProject.png"));
+        
+        openProject.setIcon(new ImageIcon("icons\\openProject.png"));
+        
+        about.setIcon(new ImageIcon("icons\\about.png"));
+        copyright.setIcon(new ImageIcon("icons\\copyright.png"));
+        
+        
         file.add(newFile);
         file.add(newProject);
 
         file.addSeparator();
 
-        file.add(openFile);
         file.add(openProject);
+        file.add(openFile);
 
         file.addSeparator();
 
@@ -83,18 +96,21 @@ public class Menubar {
         menubar.add(help);
 
         //__________________________________Changing color____________________________________
-        changeTheme(new Color(185, 185, 185), new Color(250, 250, 250));
+       // changeTheme(new Color(191, 191, 191), new Color(250, 250, 250));
         //__________________________end of changing color______________________________________
+
     }
 
     public JMenuBar getMenubar() {
         return menubar;
     }
+
     //______________________MenuBar Color change ________________________________________________
     private void changeTheme(Color back, Color fore) {
         changeComponentColors(menubar, back, fore);
 
         MenuElement[] menus = menubar.getSubElements();
+        
         for (MenuElement menuElement : menus) {
 
             JMenu menu = (JMenu) menuElement.getComponent();
@@ -119,7 +135,7 @@ public class Menubar {
                     MenuElement[] menuItens1 = menuItem.getSubElements();
 
                     for (MenuElement menuItemElement1 : menuItens1) {
-
+                        
                         JPopupMenu popupMenu1 = (JPopupMenu) menuItemElement1.getComponent();
                         popupMenu1.setBorder(null);
 
@@ -130,17 +146,14 @@ public class Menubar {
                             JMenuItem menuItem2 = (JMenuItem) menuItemElement2.getComponent();
                             changeComponentColors(menuItem2, back, fore);
                             menuItem2.setOpaque(true);
-
                         }
-
                     }
-
                 }//end menuItemElement
             }//end for popupMenuElement
         }//end for menuElement
     }
     //______________________End Of MenuBar Color change ________________________________________________
-    
+
     //______________________Color change ________________________________________________
     private void changeComponentColors(Component comp, Color background, Color foreground) {
         //Method to change color of a component 
@@ -148,6 +161,5 @@ public class Menubar {
         comp.setForeground(foreground);
     }
     //______________________End Of Color change ________________________________________________
-
 
 }
