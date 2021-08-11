@@ -48,6 +48,12 @@ public class PatternPanel implements ActionListener {
         creationalBtn.setFocusable(false);
         structuralBtn.setFocusable(false);
         behavioralBtn.setFocusable(false);
+        
+        //__________________Set button border_____________________________________________________
+        creationalBtn.setBorder(new RoundedBorder(10));
+        structuralBtn.setBorder(new RoundedBorder(10));
+        behavioralBtn.setBorder(new RoundedBorder(10));  
+        
         //__________________________Creational Pattern____________________________________________
         builderBtn = new JButton("Builder Pattern");
         singletonBtn = new JButton("Singleton Pattern");
@@ -58,6 +64,10 @@ public class PatternPanel implements ActionListener {
         //Set button unfocusable
         builderBtn.setFocusable(false);
         singletonBtn.setFocusable(false);
+        //Set button border
+        builderBtn.setBorder(new RoundedBorder(10));
+        singletonBtn.setBorder(new RoundedBorder(10)); 
+        
         //___________________Structural Patterns___________________________________________________
         decoratorBtn = new JButton("Decorator Pattern");
         compositeBtn = new JButton("Composite Pattern");
@@ -68,6 +78,10 @@ public class PatternPanel implements ActionListener {
         //Set button unfocusable
         decoratorBtn.setFocusable(false);
         compositeBtn.setFocusable(false);
+        //Set button border
+        decoratorBtn.setBorder(new RoundedBorder(10));
+        compositeBtn.setBorder(new RoundedBorder(10));
+        
         //______________________Behavioral Pattern________________________________________________
         mementoBtn = new JButton("Memento Pattern");
         visitorBtn = new JButton("Vistor Pattern");
@@ -78,11 +92,17 @@ public class PatternPanel implements ActionListener {
         //Set button unfocusable
         mementoBtn.setFocusable(false);
         visitorBtn.setFocusable(false);
+        //Set button border
+        mementoBtn.setBorder(new RoundedBorder(10));
+        visitorBtn.setBorder(new RoundedBorder(10));
+        
         //______________________________________________________________________
         back = new JButton("Back");
         
         //Set button unfocusable
         back.setFocusable(false);
+        //Set button border
+        back.setBorder(new RoundedBorder(10));
         //______________________________________________________________________
 
         addComponent(c, creationalPanel, builderBtn, 0, 0);

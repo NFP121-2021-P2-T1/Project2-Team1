@@ -9,16 +9,22 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TextEditor extends JFrame {
-
+    
+    private JMenuBar menubar;
+    
     private JSplitPane splitPane;
     private JTabbedPane leftTabbedPane, righTabbedPane;
 
     private JList list;
     private DefaultListModel listModel;
     private JScrollPane scrollPane;
+    
 
     public TextEditor() {
 
+        menubar = new Menubar().getMenubar();
+        setJMenuBar(menubar);
+        
         leftTabbedPane = new JTabbedPane();
         righTabbedPane = new JTabbedPane();
 
@@ -29,9 +35,9 @@ public class TextEditor extends JFrame {
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTabbedPane, righTabbedPane);
 
         leftTabbedPane.addTab("Document Selector", scrollPane);
-
+                
         add(splitPane);
-
+        
         setVisible(true);
         setPreferredSize(new Dimension(500, 500));
 
