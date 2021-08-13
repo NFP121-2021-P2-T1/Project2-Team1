@@ -7,14 +7,19 @@ package GraphicInterface;
 
 import javax.swing.*;
 
-public class TextEditor {
+public class TextEditorBuilder extends Builder {
 
     private JToolBar toolBar;
     private JSplitPane splitPane;
 
-    public TextEditor(JToolBar toolBar, JSplitPane splitPane) {
-        this.toolBar = toolBar;
-        this.splitPane = splitPane;
+    @Override
+    public void build() {
+        this.toolBar = new ToolBar().getToolBar();
+        this.splitPane = new SplitPane().getSplitPane();
+    }
+
+    public TextEditor getResult() {
+        return new TextEditor(toolBar, splitPane);
     }
 
     public JToolBar getToolBar() {

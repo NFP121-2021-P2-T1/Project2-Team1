@@ -19,7 +19,11 @@ public class MyGui extends JFrame {
         menubar = new Menubar().getMenubar();
         setJMenuBar(menubar);
         //______________________________________________________________________
-        panel = (new PatternPanel()).getMainPanel();
+        Director d = new Director();
+        PatternPanelBuilder teb = new PatternPanelBuilder();
+        d.construct(teb);
+        PatternPanel p = teb.getResult();
+        panel = p.getMainPanel();
         add(panel);
         
         setLayout(new GridBagLayout());
