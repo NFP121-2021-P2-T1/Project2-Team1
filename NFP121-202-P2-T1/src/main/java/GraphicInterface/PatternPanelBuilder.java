@@ -14,15 +14,11 @@ public class PatternPanelBuilder extends Builder {
     @Override
     public void build() {
         this.mainPanel = new PatternPanelButton().getMainPanel();
-        this.categoryPanel = new PatternPanelButton().getCategoryPanel();
-        this.creationalPanel = new PatternPanelButton().getCreationalPanel();
-        this.structuralPanel = new PatternPanelButton().getStructuralPanel();
-        this.behavioralPanel = new PatternPanelButton().getBehavioralPanel();
 
     }
 
     public PatternPanel getResult() {
-        return new PatternPanel(mainPanel, categoryPanel, creationalPanel, structuralPanel, behavioralPanel);
+        return new PatternPanel(mainPanel);
     }
 
 }
