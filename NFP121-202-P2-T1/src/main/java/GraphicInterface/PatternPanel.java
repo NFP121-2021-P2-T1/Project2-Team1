@@ -11,8 +11,12 @@ public class PatternPanel  {
 
     private JPanel mainPanel, categoryPanel, creationalPanel, structuralPanel, behavioralPanel;
 
-    public PatternPanel(JPanel mainPanel) {
+    public PatternPanel(JPanel mainPanel, JPanel categoryPanel, JPanel creationalPanel, JPanel structuralPanel,JPanel behavioralPanel) {
         this.mainPanel = mainPanel;
+        this.categoryPanel = categoryPanel;
+        this.creationalPanel = creationalPanel;
+        this.structuralPanel = structuralPanel;
+        this.behavioralPanel = behavioralPanel;
     } 
 
     public JPanel getMainPanel() {

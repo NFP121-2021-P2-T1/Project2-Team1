@@ -18,6 +18,10 @@ public class PatternPanelButton implements ActionListener {
     private JButton decoratorBtn, compositeBtn;
     private JButton mementoBtn, visitorBtn;
     private JButton back;
+    
+    private BuilderPatternFrame builderFrame;
+    
+    
 
     public PatternPanelButton() {
         GridBagConstraints c = new GridBagConstraints();
@@ -167,6 +171,10 @@ public class PatternPanelButton implements ActionListener {
             structuralPanel.setVisible(false);
             behavioralPanel.setVisible(false);
             back.setVisible(false);
+        } else if (e.getSource() == builderBtn){
+           //back.setVisible(false); 
+           creationalPanel.setVisible(false);
+           builderFrame.getBuilderPanel().setVisible(true);
         }
     }
 
