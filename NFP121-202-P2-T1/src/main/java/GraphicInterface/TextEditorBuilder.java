@@ -19,7 +19,7 @@ public class TextEditorBuilder extends Builder {
     }
 
     public TextEditor getResult() {
-        return new TextEditor(toolBar, splitPane);
+        return TextEditor.getInstance(toolBar , splitPane);
     }
 
     public JToolBar getToolBar() {

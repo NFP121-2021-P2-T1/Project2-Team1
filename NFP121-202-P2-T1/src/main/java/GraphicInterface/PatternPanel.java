@@ -8,18 +8,25 @@ package GraphicInterface;
 import javax.swing.*;
 
 public class PatternPanel  {
-
+    public static PatternPanel patternPanel;
     private JPanel mainPanel, categoryPanel, creationalPanel, structuralPanel, behavioralPanel;
 
-    public PatternPanel(JPanel mainPanel, JPanel categoryPanel, JPanel creationalPanel, JPanel structuralPanel,JPanel behavioralPanel) {
+    private PatternPanel(JPanel mainPanel) {
         this.mainPanel = mainPanel;
-        this.categoryPanel = categoryPanel;
-        this.creationalPanel = creationalPanel;
-        this.structuralPanel = structuralPanel;
-        this.behavioralPanel = behavioralPanel;
     } 
-
+    public static PatternPanel getInstance(JPanel mainPanel){
+        if(patternPanel== null) 
+            patternPanel = new PatternPanel( mainPanel);
+        return patternPanel;
+    }
+    public static PatternPanel getInstance(){
+        if(patternPanel== null) 
+            patternPanel = new PatternPanel(null);
+        return patternPanel;
+    }
     public JPanel getMainPanel() {
+        if(mainPanel == null)
+            mainPanel = PatternPanelButton.getInstancePattern().getMainPanel();
         return mainPanel;
     }
     

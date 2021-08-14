@@ -10,7 +10,9 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class PatternPanelButton implements ActionListener {
-
+    
+    public static PatternPanelButton pattern ;
+    
     private JPanel mainPanel, categoryPanel, creationalPanel, structuralPanel, behavioralPanel;
     private JButton creationalBtn, structuralBtn, behavioralBtn;
 
@@ -20,9 +22,8 @@ public class PatternPanelButton implements ActionListener {
     private JButton back;
 
     private JPanel builderFrame;
-    private  BuilderPatternFrame buildF;
 
-    public PatternPanelButton() {
+    private PatternPanelButton() {
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 0.5;
@@ -130,8 +131,7 @@ public class PatternPanelButton implements ActionListener {
         
         builderBtn.addActionListener(this);
         //______________________________________________________________________
-        buildF = new BuilderPatternFrame();
-        builderFrame = buildF.getPanel();
+        builderFrame = BuilderPatternFrame.getInstancFrame().getPanel();
         mainPanel.add(builderFrame);
         builderFrame.setVisible(false);
 
@@ -153,7 +153,14 @@ public class PatternPanelButton implements ActionListener {
     public JPanel getMainPanel() {
         return mainPanel;
     }
-
+    
+    public static PatternPanelButton getInstancePattern()
+    {
+        if (pattern == null)
+            pattern = new PatternPanelButton();
+        return pattern;
+    }
+    
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == creationalBtn) {
@@ -208,5 +215,51 @@ public class PatternPanelButton implements ActionListener {
     public JPanel getBehavioralPanel() {
         return behavioralPanel;
     }
+
+    public JButton getCreationalBtn() {
+        return creationalBtn;
+    }
+
+    public JButton getStructuralBtn() {
+        return structuralBtn;
+    }
+
+    public JButton getBehavioralBtn() {
+        return behavioralBtn;
+    }
+
+    public JButton getBuilderBtn() {
+        return builderBtn;
+    }
+
+    public JButton getSingletonBtn() {
+        return singletonBtn;
+    }
+
+    public JButton getDecoratorBtn() {
+        return decoratorBtn;
+    }
+
+    public JButton getCompositeBtn() {
+        return compositeBtn;
+    }
+
+    public JButton getMementoBtn() {
+        return mementoBtn;
+    }
+
+    public JButton getVisitorBtn() {
+        return visitorBtn;
+    }
+
+    public JButton getBack() {
+        return back;
+    }
+
+    public JPanel getBuilderFrame() {
+        return builderFrame;
+    }
+
+    
 
 }

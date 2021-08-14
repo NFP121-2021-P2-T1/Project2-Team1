@@ -18,7 +18,8 @@ import javax.swing.JLabel;
  */
 public class BuilderPatternFrame extends JFrame implements ActionListener, PatternPanelTemplate {
 
-    private JMenuBar menubar;
+    private static BuilderPatternFrame builderPatternFrame ;
+    
     private JPanel panel, builderPanel;
     private JEditorPane builderText;
     private JLabel imageLabel, title;
@@ -26,7 +27,7 @@ public class BuilderPatternFrame extends JFrame implements ActionListener, Patte
     private ImageIcon image;
     private JButton back, create;
 
-    public BuilderPatternFrame() {
+    private BuilderPatternFrame() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -35,10 +36,7 @@ public class BuilderPatternFrame extends JFrame implements ActionListener, Patte
         //setJMenuBar(menubar);
 
         //_________________MainPanel____________________________________________
-        // Director d = new Director();
-        //PatternPanelBuilder teb = new PatternPanelBuilder();
-        // d.construct(teb);
-        //PatternPanel p = teb.getResult();
+        
         panel = new JPanel();
 
         //________________Layout________________________________________________
@@ -90,6 +88,46 @@ public class BuilderPatternFrame extends JFrame implements ActionListener, Patte
         panel.setVisible(true);
 
     }
+    
+    public static BuilderPatternFrame getInstancFrame()
+    {
+        if(builderPatternFrame== null) 
+            builderPatternFrame = new BuilderPatternFrame();
+        return builderPatternFrame;
+    }
+
+    public static BuilderPatternFrame getBuilderPatternFrame() {
+        return builderPatternFrame;
+    }
+
+    public JEditorPane getBuilderText() {
+        return builderText;
+    }
+
+    public JLabel getImageLabel() {
+        return imageLabel;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public ImageIcon getImage() {
+        return image;
+    }
+
+    public JButton getBack() {
+        return back;
+    }
+
+    public JButton getCreate() {
+        return create;
+    }
+    
 
     public void setText() {
         text = "<b>What it is : </b> \n Separate the construction of a complex object from its "
@@ -106,8 +144,8 @@ public class BuilderPatternFrame extends JFrame implements ActionListener, Patte
 
         if (e.getSource() == back) {
             builderPanel.setVisible(false);
-            panel.setVisible(true);
-            //add(panel);
+            PatternPanelButton.getInstancePattern().getBack().setVisible(true);
+            PatternPanelButton.getInstancePattern().getCreationalPanel().setVisible(true);
 
         }
     }

@@ -9,20 +9,16 @@ import javax.swing.*;
 
 public class PatternPanelBuilder extends Builder {
 
-    private JPanel mainPanel, categoryPanel, creationalPanel, structuralPanel, behavioralPanel;
+    private JPanel mainPanel;
 
     @Override
     public void build() {
-        this.mainPanel = new PatternPanelButton().getMainPanel();
-        this.categoryPanel = new PatternPanelButton().getCategoryPanel();
-        this.creationalPanel = new PatternPanelButton().getCreationalPanel();
-        this.structuralPanel = new PatternPanelButton().getStructuralPanel();
-        this.behavioralPanel = new PatternPanelButton().getBehavioralPanel();
+        this.mainPanel = PatternPanelButton.getInstancePattern().getMainPanel();
 
     }
 
     public PatternPanel getResult() {
-        return new PatternPanel(mainPanel, categoryPanel, creationalPanel, structuralPanel, behavioralPanel);
+        return PatternPanel.getInstance(mainPanel);
     }
 
 }
