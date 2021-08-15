@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GraphicInterface;
+package FactoryPattern;
 
 import BuilderPattern.PatternPanelButton;
+import GraphicInterface.PatternPanelTemplate;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -157,8 +158,4 @@ public class BuilderPatternFrame extends JFrame implements ActionListener, Patte
         panel.add(comp, c);
     }
 
-    public static void main(String[] args) {
-        BuilderPatternFrame builder = new BuilderPatternFrame();
-    }
-    
 }

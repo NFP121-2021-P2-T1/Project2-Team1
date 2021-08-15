@@ -5,8 +5,7 @@
  */
 package BuilderPattern;
 
-import GraphicInterface.BuilderPatternFrame;
-import GraphicInterface.BuilderPatternFrame;
+import FactoryPattern.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -24,6 +23,11 @@ public class PatternPanelButton implements ActionListener {
     private JButton back;
 
     private JPanel builderFrame;
+    private JPanel singletonFrame;
+    private JPanel compositeFrame;
+    private JPanel decoratorFrame;
+    private JPanel mementoFrame;
+    private JPanel visitorFrame;
 
     private PatternPanelButton() {
         GridBagConstraints c = new GridBagConstraints();
@@ -132,11 +136,37 @@ public class PatternPanelButton implements ActionListener {
         back.addActionListener(this);
         
         builderBtn.addActionListener(this);
+        singletonBtn.addActionListener(this);
+        compositeBtn.addActionListener(this);
+        decoratorBtn.addActionListener(this);
+        mementoBtn.addActionListener(this);
+        visitorBtn.addActionListener(this);
+        
         //______________________________________________________________________
         builderFrame = BuilderPatternFrame.getInstancFrame().getPanel();
         mainPanel.add(builderFrame);
         builderFrame.setVisible(false);
 
+        singletonFrame = SingletonPatternFrame.getInstancFrame().getPanel();
+        mainPanel.add(singletonFrame);
+        singletonFrame.setVisible(false);
+        
+        compositeFrame = CompositePatternFrame.getInstancFrame().getPanel();
+        mainPanel.add(compositeFrame);
+        compositeFrame.setVisible(false);
+        
+        decoratorFrame = DecoratorPatternFrame.getInstancFrame().getPanel();
+        mainPanel.add(decoratorFrame);
+        decoratorFrame.setVisible(false);
+        
+        mementoFrame = MementoPatternFrame.getInstancFrame().getPanel();
+        mainPanel.add(mementoFrame);
+        mementoFrame.setVisible(false);
+        
+        visitorFrame = VisitorPatternFrame.getInstancFrame().getPanel();
+        mainPanel.add(visitorFrame);
+        visitorFrame.setVisible(false);
+        
         mainPanel.setVisible(true);
 
         addComponent(c, mainPanel, back, 0, 0);
@@ -193,7 +223,45 @@ public class PatternPanelButton implements ActionListener {
             behavioralPanel.setVisible(false);
             back.setVisible(false);
             builderFrame.setVisible(true);
+        } else if (e.getSource() == singletonBtn) {
+            categoryPanel.setVisible(false);
+            creationalPanel.setVisible(false);
+            structuralPanel.setVisible(false);
+            behavioralPanel.setVisible(false);
+            back.setVisible(false);
+            singletonFrame.setVisible(true);
+        } else if (e.getSource() == compositeBtn) {
+            categoryPanel.setVisible(false);
+            creationalPanel.setVisible(false);
+            structuralPanel.setVisible(false);
+            behavioralPanel.setVisible(false);
+            back.setVisible(false);
+            compositeFrame.setVisible(true);
+        } else if (e.getSource() == decoratorBtn) {
+            categoryPanel.setVisible(false);
+            creationalPanel.setVisible(false);
+            structuralPanel.setVisible(false);
+            behavioralPanel.setVisible(false);
+            back.setVisible(false);
+            decoratorFrame.setVisible(true);
+        } else if (e.getSource() == mementoBtn) {
+            categoryPanel.setVisible(false);
+            creationalPanel.setVisible(false);
+            structuralPanel.setVisible(false);
+            behavioralPanel.setVisible(false);
+            back.setVisible(false);
+            mementoFrame.setVisible(true);
+        } else if (e.getSource() == visitorBtn) {
+            categoryPanel.setVisible(false);
+            creationalPanel.setVisible(false);
+            structuralPanel.setVisible(false);
+            behavioralPanel.setVisible(false);
+            back.setVisible(false);
+            visitorFrame.setVisible(true);
         }
+        
+
+
     }
 
     public void addComponent(GridBagConstraints c, JPanel panel, JComponent comp, int x, int y) {
@@ -262,6 +330,25 @@ public class PatternPanelButton implements ActionListener {
         return builderFrame;
     }
 
+    public JPanel getSingletonFrame() {
+        return singletonFrame;
+    }
+
+    public JPanel getCompositeFrame() {
+        return compositeFrame;
+    }
+
+    public JPanel getDecoratorFrame() {
+        return decoratorFrame;
+    }
+
+    public JPanel getMementoFrame() {
+        return mementoFrame;
+    }
+
+    public JPanel getVisitorFrame() {
+        return visitorFrame;
+    }
     
 
 }
