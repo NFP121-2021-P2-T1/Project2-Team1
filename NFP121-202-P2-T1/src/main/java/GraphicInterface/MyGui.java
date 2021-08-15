@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GraphicInterface;
 
+import BuilderPattern.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -12,21 +8,39 @@ import javax.swing.*;
 public class MyGui extends JFrame {
 
     private JMenuBar menubar;
-    private JPanel panel;
+    private JPanel mainPatternPanel ,panelPattern , panelTextEditor;
+    
+    private JSplitPane splitPane;
+    private JToolBar toolBar;
     public MyGui() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         //______________________________________________________________________        
-        menubar = new Menubar().getMenubar();
+        menubar = Menubar.getInstanceMenuBar().getMenubar();
         setJMenuBar(menubar);
+        mainPatternPanel = new JPanel(new GridBagLayout());
         //______________________________________________________________________
+        //Conctruction du PatternPanel
         Director d = new Director();
-        PatternPanelBuilder teb = new PatternPanelBuilder();
-        d.construct(teb);
-        PatternPanel p = teb.getResult();
-        panel = p.getMainPanel();
-        add(panel);
+        PatternPanelBuilder patternPanelBuilder = new PatternPanelBuilder();
+        d.construct(patternPanelBuilder);
+        PatternPanel patternPanel = patternPanelBuilder.getResult();
+        panelPattern = patternPanel.getMainPanel();
+        mainPatternPanel.add(panelPattern);
+        add(mainPatternPanel);
         
-        setLayout(new GridBagLayout());
+        //_____________________________________________________________________
+        panelTextEditor = new JPanel(new BorderLayout());
+        //Construction du TextEditor
+        TextEditorBuilder textEditorBuilder = new TextEditorBuilder();
+        d.construct(textEditorBuilder);
+        TextEditor textEditor = textEditorBuilder.getResult();
+        splitPane = textEditor.getSplitPane();
+        toolBar = textEditor.getToolBar();
+        panelTextEditor.add(toolBar,BorderLayout.PAGE_START);panelTextEditor.add(splitPane);
+        
+        add(panelTextEditor);
+        panelTextEditor.setVisible(false);
+        
         setPreferredSize(new Dimension(800, 600));
         setBackground(new Color(251, 252, 251));
         pack();

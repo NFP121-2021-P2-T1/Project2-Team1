@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GraphicInterface;
+package BuilderPattern;
 
+import GraphicInterface.BuilderPatternFrame;
+import GraphicInterface.BuilderPatternFrame;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

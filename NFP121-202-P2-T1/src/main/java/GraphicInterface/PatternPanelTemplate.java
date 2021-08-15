@@ -5,10 +5,6 @@
  */
 package GraphicInterface;
 
-/**
- *
- * @author Cynthia
- */
 public interface PatternPanelTemplate {
     
     public void setText();

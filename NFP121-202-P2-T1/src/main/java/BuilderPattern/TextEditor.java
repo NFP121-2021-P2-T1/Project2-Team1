@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GraphicInterface;
+package BuilderPattern;
 
 import javax.swing.*;
 
@@ -45,7 +45,7 @@ public class TextEditor {
 
     public JSplitPane getSplitPane() {
         if(splitPane == null)
-            splitPane = new SplitPane().getSplitPane();
+            splitPane = SplitPane.getInstanSplitPane().getSplitPane();
         return splitPane;
     }
 

@@ -1,4 +1,4 @@
-package GraphicInterface;
+package BuilderPattern;
 
 import javax.swing.*;
 

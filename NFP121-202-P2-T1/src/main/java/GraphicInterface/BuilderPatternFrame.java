@@ -5,6 +5,7 @@
  */
 package GraphicInterface;
 
+import BuilderPattern.PatternPanelButton;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -12,10 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-/**
- *
- * @author Cynthia
- */
 public class BuilderPatternFrame extends JFrame implements ActionListener, PatternPanelTemplate {
 
     private static BuilderPatternFrame builderPatternFrame ;

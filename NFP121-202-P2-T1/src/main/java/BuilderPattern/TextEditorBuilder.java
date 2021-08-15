@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GraphicInterface;
+package BuilderPattern;
 
 import javax.swing.*;
 
@@ -15,7 +15,7 @@ public class TextEditorBuilder extends Builder {
     @Override
     public void build() {
         this.toolBar = new ToolBar().getToolBar();
-        this.splitPane = new SplitPane().getSplitPane();
+        this.splitPane = SplitPane.getInstanSplitPane().getSplitPane();
     }
 
     public TextEditor getResult() {

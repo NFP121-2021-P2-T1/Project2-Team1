@@ -1,7 +1,8 @@
 package GraphicInterface;
 
+import Action.FileListener;
 import java.awt.*;
-import java.io.File;
+import java.awt.event.*;
 import javax.swing.*;
 
 /**
@@ -9,6 +10,8 @@ import javax.swing.*;
  * @author Rim
  */
 public class Menubar {
+
+    private static Menubar mainMenu;
 
     private JMenuBar menubar;
     private JMenu file, edit, view, help;
@@ -19,16 +22,14 @@ public class Menubar {
     private JMenu lookAndFeel;
     private JMenuItem fall;
     private JMenuItem about, copyright;
-    
-    
 
-    public Menubar() {
+    private Menubar() {
         menubar = new JMenuBar();
 
         file = new JMenu("File");
         edit = new JMenu("Edit");
         view = new JMenu("View");
-        help = new JMenu("Help"); 
+        help = new JMenu("Help");
         //______________________________________________________________________
         newFile = new JMenuItem("New File");
         newProject = new JMenuItem("New Project");
@@ -55,13 +56,12 @@ public class Menubar {
         //Set icon to some JMenuItem
         newFile.setIcon(new ImageIcon("icons\\newFile.png"));
         newProject.setIcon(new ImageIcon("icons\\newProject.png"));
-        
+
         openProject.setIcon(new ImageIcon("icons\\openProject.png"));
-        
+
         about.setIcon(new ImageIcon("icons\\about.png"));
         copyright.setIcon(new ImageIcon("icons\\copyright.png"));
-        
-        
+
         file.add(newFile);
         file.add(newProject);
 
@@ -96,9 +96,23 @@ public class Menubar {
         menubar.add(help);
 
         //__________________________________Changing color____________________________________
-       // changeTheme(new Color(191, 191, 191), new Color(250, 250, 250));
+        // changeTheme(new Color(191, 191, 191), new Color(250, 250, 250));
         //__________________________end of changing color______________________________________
+        
+        openProject.setAccelerator(KeyStroke.getKeyStroke("control shift O"));
+        openProject.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                FileListener.openFolder();
+            }
+        });
+    }
 
+    public static Menubar getInstanceMenuBar() {
+        if (mainMenu == null) {
+            mainMenu = new Menubar();
+        }
+        return mainMenu;
     }
 
     public JMenuBar getMenubar() {
@@ -110,7 +124,7 @@ public class Menubar {
         changeComponentColors(menubar, back, fore);
 
         MenuElement[] menus = menubar.getSubElements();
-        
+
         for (MenuElement menuElement : menus) {
 
             JMenu menu = (JMenu) menuElement.getComponent();
@@ -135,7 +149,7 @@ public class Menubar {
                     MenuElement[] menuItens1 = menuItem.getSubElements();
 
                     for (MenuElement menuItemElement1 : menuItens1) {
-                        
+
                         JPopupMenu popupMenu1 = (JPopupMenu) menuItemElement1.getComponent();
                         popupMenu1.setBorder(null);
 

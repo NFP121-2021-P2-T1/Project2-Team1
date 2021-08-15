@@ -3,13 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GraphicInterface;
-
+package BuilderPattern;
 import javax.swing.*;
 
-public class Director extends JFrame {
-
-    public void construct(Builder mainFrame) {
-        mainFrame.build();
-    }
+public abstract class Builder extends JFrame{
+    public abstract void build();
 }
