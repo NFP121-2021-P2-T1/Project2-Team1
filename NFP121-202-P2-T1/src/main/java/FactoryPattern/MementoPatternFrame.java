@@ -145,6 +145,61 @@ public class MementoPatternFrame extends JFrame implements ActionListener, Patte
             PatternPanelButton.getInstancePattern().getBack().setVisible(true);
             PatternPanelButton.getInstancePattern().getBehavioralPanel().setVisible(true);
 
+        } else if (e.getSource() == create){
+            JDialog dialog = new JDialog();
+        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                dialog.dispose();
+            }
+        });
+
+        JButton finish = new JButton("Finish");
+        JButton cancel = new JButton("Cancel");
+
+        JPanel container = new JPanel(new GridBagLayout());
+        JLabel projectName = new JLabel("Project Name : ");
+        JTextField pNameField = new JTextField(15);
+        JLabel projectLoc = new JLabel("Project Location");
+        JTextField pLocField = new JTextField(15);
+
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
+        c.insets = new Insets(10, 20, 10, 20);
+
+        c.gridx = 0;
+        c.gridy = 0;
+        container.add(projectName, c);
+        c.gridx = 0;
+        c.gridy = 1;
+        container.add(projectLoc, c);
+
+        c.gridx = 1;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        container.add(pNameField, c);
+
+        c.gridx = 1;
+        c.gridy = 1;
+        container.add(pLocField, c);
+
+        c.gridwidth = 1;
+        c.gridx = 1;
+        c.gridy = 2;
+        container.add(finish, c);
+
+        c.gridx = 2;
+        c.gridy = 2;
+        container.add(cancel, c);
+
+        container.setVisible(true);
+
+        dialog.add(container);
+        container.setSize(400, 400);
+        dialog.setSize(480, 480);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+            
         }
     }
 
