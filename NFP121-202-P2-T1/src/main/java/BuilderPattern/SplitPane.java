@@ -1,9 +1,13 @@
 package BuilderPattern;
 
+import Action.FileListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Observable;
 import javax.swing.*;
 
-public class SplitPane extends Observable{
+public class SplitPane extends Observable {
+
     private static SplitPane mainSplit;
 
     private JSplitPane splitPane;
@@ -24,19 +28,26 @@ public class SplitPane extends Observable{
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTabbedPane, righTabbedPane);
 
         leftTabbedPane.addTab("Document Selector", scrollPane);
+
+        list.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                JList list = (JList) evt.getSource();
+                FileListener.openFileInTextEditor(evt);
+            }
+        });
     }
-    
-    public static SplitPane getInstanSplitPane()
-    {
-        if(mainSplit == null)
+
+    public static SplitPane getInstanSplitPane() {
+        if (mainSplit == null) {
             mainSplit = new SplitPane();
+        }
         return mainSplit;
     }
-    
+
     public JSplitPane getSplitPane() {
         return splitPane;
     }
-    
+
     public JTabbedPane getLeftTabbedPane() {
         return leftTabbedPane;
     }
@@ -56,10 +67,11 @@ public class SplitPane extends Observable{
     public JScrollPane getScrollPane() {
         return scrollPane;
     }
-    
-    public  void addListElement(Object element){
-        if (element != null)
+
+    public void addListElement(Object element) {
+        if (element != null) {
             listModel.addElement(element);
+        }
         setChanged();
         notifyObservers();
     }

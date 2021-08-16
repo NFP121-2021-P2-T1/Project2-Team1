@@ -5,47 +5,70 @@
  */
 package Action;
 
-
 import BuilderPattern.*;
 import java.awt.*;
-import java.io.File;
+import java.io.*;
+import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 
 public class FileListener {
-    public static void openFileInTextEditor()
-    {
-        JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
-        JTextPane textPane=new JTextPane();
-        JScrollPane jsp=new JScrollPane(textPane);
-        tabbedPane.addTab("Document  ",jsp);
+
+    private static HashMap<Integer, String> listOfFiles = new HashMap<Integer, String>();
+    private static int elementNum = 0;
+    
+    public static void openFileInTextEditor(java.awt.event.MouseEvent evt) {
+        JList list = (JList) evt.getSource();
+        if (evt.getClickCount() == 2) {
+            int index = list.locationToIndex(evt.getPoint());
+            String path = listOfFiles.get(index+1);
+            try {
+                FileReader reader = new FileReader(path);
+                BufferedReader br = new BufferedReader(reader);
+
+                JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
+                JTextPane textPane = new JTextPane();
+                JScrollPane jsp = new JScrollPane(textPane);
+                String tabName = (String)list.getModel().getElementAt(index);
+                tabbedPane.addTab(tabName.trim(), jsp);
+
+                textPane.read(br, null);
+                br.close();
+                textPane.requestFocus();
+            } catch (Exception e2) {
+                System.out.println(e2);
+            }
+        }
     }
+
+   
 
     public static void openFolder() {
         JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
         // set the selection mode to Files and Directories
         j.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-
         // invoke the showsOpenDialog function to show the save dialog
         int r = j.showOpenDialog(null);
+
         JTextField myTextField = new JTextField();
         myTextField.setText(j.getSelectedFile().getAbsolutePath());
-
         String path = myTextField.getText();
-        
-        addFiles(path, 0);
+
+        listOfFiles.put(elementNum, path);
+        elementNum += 1;
+
+        addFilesToList(path, 0);
     }
 
     //to open directory and add element to modelList in SplitPane.
-    public static void addFiles(String path, int index) {
+    public static void addFilesToList(String path, int index) {
         File root = new File(path);
         File[] list = root.listFiles();
 
         if (list == null) {
             return;
         }
-
         String s = "     ";
         for (int i = 0; i < index; i++) {
             s += "     ";
@@ -53,20 +76,26 @@ public class FileListener {
         index += 1;
         String name = "";
         for (File f : list) {
+            String extension = f.getName().substring(f.getName().lastIndexOf('.') + 1);
             if (f.isFile()) {
-                name = s + "" + f.getName();
-                SplitPane.getInstanSplitPane().addListElement(name);
+                if (extension.equals("java")) {
+                    name = s + "" + f.getName();
+                    listOfFiles.put(elementNum, f.getAbsolutePath());
+                    elementNum += 1;
+                    SplitPane.getInstanSplitPane().addListElement(name);
+                }
 
             } else {
                 name = s + "> " + f.getName();
+                listOfFiles.put(elementNum, f.getAbsolutePath());
+                elementNum += 1;
                 SplitPane.getInstanSplitPane().addListElement(name);
-                //index++;
-                addFiles(f.getAbsolutePath(), index);
+                addFilesToList(f.getAbsolutePath(), index);
             }
         }
     }
 
-    //__________________________
+    //__________________________________________________________________________
     public static void newProject() {
     }
 

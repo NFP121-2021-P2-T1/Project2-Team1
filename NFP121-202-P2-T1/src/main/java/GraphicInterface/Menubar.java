@@ -98,12 +98,7 @@ public class Menubar {
         //___________Changing color_____________
         // changeTheme(new Color(191, 191, 191), new Color(250, 250, 250));
         //_________end of changing color_____________
-        newFile.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                FileListener.openFileInTextEditor();
-            }
-        });
+        
         openProject.setAccelerator(KeyStroke.getKeyStroke("control shift O"));
         openProject.addActionListener(new ActionListener() {
             @Override
