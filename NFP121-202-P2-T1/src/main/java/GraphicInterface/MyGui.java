@@ -22,12 +22,12 @@ public class MyGui extends JFrame {
         //______________________________________________________________________
         //Conctruction du PatternPanel
         Director d = new Director();
-        PatternPanelBuilder patternPanelBuilder = new PatternPanelBuilder();
+        /*PatternPanelBuilder patternPanelBuilder = new PatternPanelBuilder();
         d.construct(patternPanelBuilder);
         PatternPanel patternPanel = patternPanelBuilder.getResult();
         panelPattern = patternPanel.getMainPanel();
         mainPatternPanel.add(panelPattern);
-        add(mainPatternPanel);
+        add(mainPatternPanel);*/
           
                 //_____________________________________________________________________
                  panelTextEditor = new JPanel(new BorderLayout());
@@ -40,7 +40,7 @@ public class MyGui extends JFrame {
         panelTextEditor.add(toolBar, BorderLayout.PAGE_START);
         panelTextEditor.add(splitPane);
 
-        //add(panelTextEditor);
+        add(panelTextEditor);
 
         setPreferredSize(new Dimension(800, 600));
         setBackground(new Color(251, 252, 251));
