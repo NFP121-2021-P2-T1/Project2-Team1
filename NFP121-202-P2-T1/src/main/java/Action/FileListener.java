@@ -13,6 +13,13 @@ import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 
 public class FileListener {
+    public static void openFileInTextEditor()
+    {
+        JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
+        JTextPane textPane=new JTextPane();
+        JScrollPane jsp=new JScrollPane(textPane);
+        tabbedPane.addTab("Document  ",jsp);
+    }
 
     public static void openFolder() {
         JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
@@ -59,7 +66,7 @@ public class FileListener {
         }
     }
 
-    //__________________________________________________________________________
+    //__________________________
     public static void newProject() {
     }
 
@@ -120,4 +127,3 @@ public class FileListener {
     }
 
 }
-

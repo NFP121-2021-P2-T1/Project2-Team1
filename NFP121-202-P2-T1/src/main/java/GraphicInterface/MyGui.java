@@ -7,30 +7,37 @@ import javax.swing.*;
 
 public class MyGui extends JFrame {
 
+    private static MyGui myInterface;
+
     private JMenuBar menubar;
-    private JPanel mainPatternPanel, panelPattern, panelTextEditor;
+    private JPanel framePanel, mainPatternPanel, panelPattern, panelTextEditor;
 
     private JSplitPane splitPane;
     private JToolBar toolBar;
 
-    public MyGui() {
+    private MyGui() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        //______________________________________________________________________        
+        //________________________        
         menubar = Menubar.getInstanceMenuBar().getMenubar();
         setJMenuBar(menubar);
+
+        framePanel = new JPanel();
+        framePanel.setLayout(new GridBagLayout());
+
         mainPatternPanel = new JPanel(new GridBagLayout());
-        //______________________________________________________________________
+        //________________________
         //Conctruction du PatternPanel
         Director d = new Director();
-        /*PatternPanelBuilder patternPanelBuilder = new PatternPanelBuilder();
+        PatternPanelBuilder patternPanelBuilder = new PatternPanelBuilder();
         d.construct(patternPanelBuilder);
         PatternPanel patternPanel = patternPanelBuilder.getResult();
         panelPattern = patternPanel.getMainPanel();
         mainPatternPanel.add(panelPattern);
-        add(mainPatternPanel);*/
-          
-                //_____________________________________________________________________
-                 panelTextEditor = new JPanel(new BorderLayout());
+        framePanel.add(mainPatternPanel);
+        // mainPatternPanel.setVisible(true);
+
+        //_______________________
+        panelTextEditor = new JPanel(new BorderLayout());
         //Construction du TextEditor
         TextEditorBuilder textEditorBuilder = new TextEditorBuilder();
         d.construct(textEditorBuilder);
@@ -40,7 +47,9 @@ public class MyGui extends JFrame {
         panelTextEditor.add(toolBar, BorderLayout.PAGE_START);
         panelTextEditor.add(splitPane);
 
-        add(panelTextEditor);
+        framePanel.add(panelTextEditor);
+        panelTextEditor.setVisible(false);
+        add(framePanel);
 
         setPreferredSize(new Dimension(800, 600));
         setBackground(new Color(251, 252, 251));
@@ -50,8 +59,47 @@ public class MyGui extends JFrame {
 
     }
 
+    public static MyGui getGui() {
+        if (myInterface == null) {
+            myInterface = new MyGui();
+        }
+        return myInterface;
+    }
+
+    public static MyGui getMyInterface() {
+        return myInterface;
+    }
+
+    public JPanel getFramePanel() {
+        return framePanel;
+    }
+
+    public JMenuBar getMenubar() {
+        return menubar;
+    }
+
+    public JPanel getMainPatternPanel() {
+        return mainPatternPanel;
+    }
+
+    public JPanel getPanelPattern() {
+        return panelPattern;
+    }
+
+    public JPanel getPanelTextEditor() {
+        return panelTextEditor;
+    }
+
+    public JSplitPane getSplitPane() {
+        return splitPane;
+    }
+
+    public JToolBar getToolBar() {
+        return toolBar;
+    }
+
     public static void main(String[] args) {
-        MyGui editor = new MyGui();
+        getGui();
     }
 
 }

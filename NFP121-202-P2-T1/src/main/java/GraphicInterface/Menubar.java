@@ -30,29 +30,29 @@ public class Menubar {
         edit = new JMenu("Edit");
         view = new JMenu("View");
         help = new JMenu("Help");
-        //______________________________________________________________________
+        //________________________
         newFile = new JMenuItem("New File");
         newProject = new JMenuItem("New Project");
         openFile = new JMenuItem("Open File");
         openProject = new JMenuItem("Open Project");
         save = new JMenuItem("Save");
         saveAs = new JMenuItem("Save As");
-        //______________________________________________________________________
+        //________________________
         cut = new JMenuItem("Cut");
         copy = new JMenuItem("Copy");
         paste = new JMenuItem("Paste");
         find = new JMenuItem("Find");
         replace = new JMenuItem("Replace");
-        //______________________________________________________________________
+        //________________________
         lookAndFeel = new JMenu("Look & Feel");
         font = new JMenuItem("Font");
 
-        //______________________________________________________________________
+        //________________________
         fall = new JMenuItem("Fall");
-        //______________________________________________________________________
+        //________________________
         about = new JMenuItem("About");
         copyright = new JMenuItem("Copyright");
-        //______________________________________________________________________
+        //________________________
         //Set icon to some JMenuItem
         newFile.setIcon(new ImageIcon("icons\\newFile.png"));
         newProject.setIcon(new ImageIcon("icons\\newProject.png"));
@@ -74,36 +74,45 @@ public class Menubar {
 
         file.add(save);
         file.add(saveAs);
-        //______________________________________________________________________
+        //________________________
         edit.add(cut);
         edit.add(copy);
         edit.add(paste);
         edit.addSeparator();
         edit.add(find);
         edit.add(replace);
-        //______________________________________________________________________
+        //________________________
         view.add(font);
         view.add(lookAndFeel);
-        //______________________________________________________________________
+        //________________________
         lookAndFeel.add(fall);
-        //______________________________________________________________________
+        //________________________
         help.add(about);
         help.add(copyright);
-        //______________________________________________________________________
+        //________________________
         menubar.add(file);
         menubar.add(edit);
         menubar.add(view);
         menubar.add(help);
 
-        //__________________________________Changing color____________________________________
+        //___________Changing color_____________
         // changeTheme(new Color(191, 191, 191), new Color(250, 250, 250));
-        //__________________________end of changing color______________________________________
-        
+        //_________end of changing color_____________
+        newFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                FileListener.openFileInTextEditor();
+            }
+        });
         openProject.setAccelerator(KeyStroke.getKeyStroke("control shift O"));
         openProject.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 FileListener.openFolder();
+                MyGui gui = MyGui.getGui();
+                gui.getFramePanel().setLayout(new FlowLayout());
+                gui.getMainPatternPanel().setVisible(false);
+                gui.getPanelTextEditor().setVisible(true);
             }
         });
     }
@@ -119,7 +128,7 @@ public class Menubar {
         return menubar;
     }
 
-    //______________________MenuBar Color change ________________________________________________
+    //_______MenuBar Color change _________________
     private void changeTheme(Color back, Color fore) {
         changeComponentColors(menubar, back, fore);
 
@@ -166,14 +175,14 @@ public class Menubar {
             }//end for popupMenuElement
         }//end for menuElement
     }
-    //______________________End Of MenuBar Color change ________________________________________________
+    //_______End Of MenuBar Color change _________________
 
-    //______________________Color change ________________________________________________
+    //_______Color change _________________
     private void changeComponentColors(Component comp, Color background, Color foreground) {
         //Method to change color of a component 
         comp.setBackground(background);
         comp.setForeground(foreground);
     }
-    //______________________End Of Color change ________________________________________________
+    //_______End Of Color change _________________
 
 }
