@@ -99,15 +99,28 @@ public class Menubar {
         //__________________________________Changing color____________________________________
         // changeTheme(new Color(191, 191, 191), new Color(250, 250, 250));
         //__________________________end of changing color______________________________________
+        
+        
+        newProject.setAccelerator(KeyStroke.getKeyStroke("control shift N"));
+        newProject.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                MyGui gui = MyGui.getGui();
+                //gui.getFramePanel().setLayout(new FlowLayout());
+                gui.getMainPatternPanel().setVisible(true);
+                gui.getPanelTextEditor().setVisible(false);
+            }
+        });
+        
         openProject.setAccelerator(KeyStroke.getKeyStroke("control shift O"));
         openProject.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 FileListener.openFolder();
-                //MyGui gui = MyGui.getGui();
+                MyGui gui = MyGui.getGui();
                 //gui.getFramePanel().setLayout(new FlowLayout());
-                //gui.getMainPatternPanel().setVisible(false);
-                // gui.getPanelTextEditor().setVisible(true);
+                gui.getMainPatternPanel().setVisible(false);
+                gui.getPanelTextEditor().setVisible(true);
             }
         });
         openFile.setAccelerator(KeyStroke.getKeyStroke("control  O"));
