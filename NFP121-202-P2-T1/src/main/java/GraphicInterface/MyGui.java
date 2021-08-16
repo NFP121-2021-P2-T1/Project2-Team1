@@ -17,7 +17,7 @@ public class MyGui extends JFrame {
 
     private MyGui() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        //________________________        
+        //______________________________________________________________________        
         menubar = Menubar.getInstanceMenuBar().getMenubar();
         setJMenuBar(menubar);
 
@@ -25,7 +25,7 @@ public class MyGui extends JFrame {
         framePanel.setLayout(new GridBagLayout());
 
         mainPatternPanel = new JPanel(new GridBagLayout());
-        //________________________
+        //______________________________________________________________________
         //Conctruction du PatternPanel
         Director d = new Director();
         PatternPanelBuilder patternPanelBuilder = new PatternPanelBuilder();
@@ -33,10 +33,10 @@ public class MyGui extends JFrame {
         PatternPanel patternPanel = patternPanelBuilder.getResult();
         panelPattern = patternPanel.getMainPanel();
         mainPatternPanel.add(panelPattern);
-        framePanel.add(mainPatternPanel);
+        //framePanel.add(mainPatternPanel);
         // mainPatternPanel.setVisible(true);
 
-        //_______________________
+        //_____________________________________________________________________
         panelTextEditor = new JPanel(new BorderLayout());
         //Construction du TextEditor
         TextEditorBuilder textEditorBuilder = new TextEditorBuilder();
@@ -47,9 +47,9 @@ public class MyGui extends JFrame {
         panelTextEditor.add(toolBar, BorderLayout.PAGE_START);
         panelTextEditor.add(splitPane);
 
-        framePanel.add(panelTextEditor);
-        panelTextEditor.setVisible(false);
-        add(framePanel);
+        add(panelTextEditor);
+        //panelTextEditor.setVisible(false);
+        //add(framePanel);
 
         setPreferredSize(new Dimension(800, 600));
         setBackground(new Color(251, 252, 251));
