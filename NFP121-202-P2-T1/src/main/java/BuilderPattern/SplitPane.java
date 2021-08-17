@@ -1,6 +1,8 @@
 package BuilderPattern;
 
 import Action.FileListener;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Observable;
@@ -16,8 +18,11 @@ public class SplitPane extends Observable {
     private JList list;
     private DefaultListModel listModel;
     private JScrollPane scrollPane;
+    private Clipboard clip;
 
     private SplitPane() {
+
+        clip = Toolkit.getDefaultToolkit().getSystemClipboard();
         leftTabbedPane = new JTabbedPane();
         righTabbedPane = new JTabbedPane();
 
@@ -66,6 +71,10 @@ public class SplitPane extends Observable {
 
     public JScrollPane getScrollPane() {
         return scrollPane;
+    }
+
+    public Clipboard getClip() {
+        return clip;
     }
 
     public void addListElement(Object element) {

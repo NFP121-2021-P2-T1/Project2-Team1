@@ -2,7 +2,6 @@ package GraphicInterface;
 
 import BuilderPattern.*;
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 public class MyGui extends JFrame {

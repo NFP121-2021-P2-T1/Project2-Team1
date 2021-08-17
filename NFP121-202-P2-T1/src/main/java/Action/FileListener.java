@@ -6,12 +6,7 @@
 package Action;
 
 import BuilderPattern.*;
-import static com.sun.javafx.tk.Toolkit.getToolkit;
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
 import java.io.*;
 import java.util.HashMap;
 import javax.swing.*;
@@ -41,6 +36,7 @@ public class FileListener {
 
                 JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
                 JTextPane textPane = new JTextPane();
+                textPane.addKeyListener(new KeyTypedAction());
                 JScrollPane jsp = new JScrollPane(textPane);
                 String tabName = (String) list.getModel().getElementAt(index);
                 tabbedPane.addTab(tabName.trim(), jsp);
@@ -54,6 +50,7 @@ public class FileListener {
         }
     }
 
+    //choose the directory to open
     public static void openFolder() {
         JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
@@ -186,6 +183,13 @@ public class FileListener {
                     d.writeBytes(line);
                     d.close();
 
+                    String tabtext = tabbedPane.getTitleAt(tabbedPane.getSelectedIndex());
+                    if (tabtext.contains("*")) {
+                        tabtext = tabtext.replace("*", "");
+                        tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), tabtext);
+
+                    }
+
                     //String tabtext = tabbedPane.getTitleAt(sel);
                 } catch (Exception ex) {
                     System.out.println("File not found");
@@ -195,8 +199,8 @@ public class FileListener {
 
         }
     }
+    
     //Find
-
     public static void Find_Action() {
         JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
         if (tabbedPane.getTabCount() > 0) {
@@ -213,52 +217,5 @@ public class FileListener {
             }
         }
     }
-/*
-    Clipboard clip = (Clipboard) getToolkit().getSystemClipboard();
-
-    //Copy
-    public void Copy_Action() {
-        JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
-        if (tabbedPane.getTabCount() > 0) {
-            int sel = tabbedPane.getSelectedIndex();
-            JTextPane textPane = (JTextPane) (((JScrollPane) tabbedPane.getComponentAt(sel)).getViewport()).getComponent(0);
-            String selected_text = textPane.getSelectedText();
-            StringSelection ss = new StringSelection(selected_text);
-            clip.setContents(ss, ss);
-
-        }
-    }
-
-    //Paste
-    public void Paste_Action() {
-        JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
-        if (tabbedPane.getTabCount() > 0) {
-            int sel = tabbedPane.getSelectedIndex();
-            JTextPane textPane = (JTextPane) (((JScrollPane) tabbedPane.getComponentAt(sel)).getViewport()).getComponent(0);
-            Transferable cliptran = clip.getContents(SplitPane.getInstanSplitPane().getRighTabbedPane());
-            try {
-                String selected_text = (String) cliptran.getTransferData(DataFlavor.stringFlavor);
-                textPane.replaceSelection(selected_text);
-            } catch (Exception exc) {
-                System.out.println("error to paste");
-            }
-        }
-    }
-
-    //Cut
-    public void Edit_Cut_Action() {
-        JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
-        if (tabbedPane.getTabCount() > 0) {
-            int sel = tabbedPane.getSelectedIndex();
-            JTextPane textPane = (JTextPane) (((JScrollPane) tabbedPane.getComponentAt(sel)).getViewport()).getComponent(0);
-            String selected_text = textPane.getSelectedText();
-            StringSelection ss = new StringSelection(selected_text);
-            clip.setContents(ss, ss);
-            textPane.replaceSelection("");
-
-            String tabtext = tabbedPane.getTitleAt(sel);
-
-        }
-    }
-*/
+    
 }

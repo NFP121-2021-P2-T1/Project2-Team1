@@ -2,6 +2,7 @@ package GraphicInterface;
 
 import Action.FileListener;
 import BuilderPattern.SplitPane;
+import Command.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -23,8 +24,11 @@ public class Menubar {
     private JMenu lookAndFeel;
     private JMenuItem fall;
     private JMenuItem about, copyright;
+    
+    private Invoker command;
 
     private Menubar() {
+        command = new Invoker();
         menubar = new JMenuBar();
 
         file = new JMenu("File");
@@ -99,8 +103,6 @@ public class Menubar {
         //__________________________________Changing color____________________________________
         // changeTheme(new Color(191, 191, 191), new Color(250, 250, 250));
         //__________________________end of changing color______________________________________
-        
-        
         newProject.setAccelerator(KeyStroke.getKeyStroke("control shift N"));
         newProject.addActionListener(new ActionListener() {
             @Override
@@ -111,7 +113,7 @@ public class Menubar {
                 gui.getPanelTextEditor().setVisible(false);
             }
         });
-        
+
         openProject.setAccelerator(KeyStroke.getKeyStroke("control shift O"));
         openProject.addActionListener(new ActionListener() {
             @Override
@@ -154,21 +156,29 @@ public class Menubar {
                 Replace_Action();
             }
         });
-        /*
-        FileListener fileListener = new FileListener();
+        
         copy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                 fileListener.Copy_Action();
+                 //FileListener.Copy_Action();
+                 command.doCommand(new CopyCommand());
             }
         });
        paste.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                 fileListener.Paste_Action();
+                 //FileListener.Paste_Action();
+                 command.doCommand(new PasteCommand());
             }
         });
-         */
+       cut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                 //FileListener.Cut_Action();
+                 command.doCommand(new CutCommand());
+            }
+        });
+         
     }
 
     public static Menubar getInstanceMenuBar() {
@@ -181,7 +191,7 @@ public class Menubar {
     public JMenuBar getMenubar() {
         return menubar;
     }
-
+    
     //______________________MenuBar Color change ________________________________________________
     private void changeTheme(Color back, Color fore) {
         changeComponentColors(menubar, back, fore);
@@ -279,30 +289,29 @@ public class Menubar {
             jd.show();
         }
     }
+
     class ReplaceText_Action implements ActionListener {
 
-    public void actionPerformed(ActionEvent evt) {
-        JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
-        Object source = evt.getSource();
-        if (source == replaceButton) {
-            int sel = tabbedPane.getSelectedIndex();
-            JTextPane textPane = (JTextPane) (((JScrollPane) tabbedPane.getComponentAt(sel)).getViewport()).getComponent(0);
+        public void actionPerformed(ActionEvent evt) {
+            JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
+            Object source = evt.getSource();
+            if (source == replaceButton) {
+                int sel = tabbedPane.getSelectedIndex();
+                JTextPane textPane = (JTextPane) (((JScrollPane) tabbedPane.getComponentAt(sel)).getViewport()).getComponent(0);
 
-            String find = findText.getText();
-            String replace = replaceText.getText();
+                String find = findText.getText();
+                String replace = replaceText.getText();
 
-            textPane.setText(textPane.getText().replaceAll(find, replace));
+                textPane.setText(textPane.getText().replaceAll(find, replace));
 
-            String tabtext = tabbedPane.getTitleAt(sel);
-            if (tabtext.contains("*")) {
-            } else {
-                tabbedPane.setTitleAt(sel, tabbedPane.getTitleAt(sel) + "*");
-                tabbedPane.setIconAt(sel, new ImageIcon(this.getClass().getResource("resources/unsaved.png")));
+                String tabtext = tabbedPane.getTitleAt(sel);
+                if (tabtext.contains("*")) {
+                } else {
+                    tabbedPane.setTitleAt(sel, tabbedPane.getTitleAt(sel) + "*");
+                }
+            } else if (source == cancelButton) {
+                jd.dispose();
             }
-        } else if (source == cancelButton) {
-            jd.dispose();
         }
     }
 }
-}
-
