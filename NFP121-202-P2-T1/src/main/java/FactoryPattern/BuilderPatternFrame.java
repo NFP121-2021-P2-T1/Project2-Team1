@@ -5,13 +5,17 @@
  */
 package FactoryPattern;
 
+import Action.FileListener;
+import static Action.FileListener.addFilesToList;
 import BuilderPattern.PatternPanelButton;
-import GraphicInterface.PatternPanelTemplate;
+import BuilderPattern.SplitPane;
+import GraphicInterface.MyGui;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
@@ -26,20 +30,23 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static jdk.nashorn.internal.objects.NativeRegExp.source;
+import javax.swing.filechooser.FileSystemView;
 
 public class BuilderPatternFrame extends JFrame implements ActionListener, PatternPanelTemplate {
 
     private static BuilderPatternFrame builderPatternFrame;
-
-    private JPanel panel, builderPanel, container;
     private JEditorPane builderText;
+    private JPanel panel, builderPanel, container;
     private JLabel imageLabel, title, projectName, projectLoc;
     private String text, path;
     private ImageIcon image;
-    private JButton back, create, finish, cancel;
+    private JButton back, create, finish, cancel, browse;
     private JDialog dialog;
     private JTextField pNameField, pLocField;
+    public JFileChooser j;
+    private String name;
+    private JTextField myTextField;
+    private String pa;
 
     private BuilderPatternFrame() {
 
@@ -182,6 +189,11 @@ public class BuilderPatternFrame extends JFrame implements ActionListener, Patte
             projectLoc = new JLabel("Project Location");
             pLocField = new JTextField(15);
 
+            //pNameField.setEditable(false);
+            pLocField.setEditable(false);
+
+            browse = new JButton("Browse");
+
             GridBagConstraints c = new GridBagConstraints();
             c.fill = GridBagConstraints.BOTH;
             c.insets = new Insets(10, 20, 10, 20);
@@ -210,6 +222,13 @@ public class BuilderPatternFrame extends JFrame implements ActionListener, Patte
             c.gridx = 2;
             c.gridy = 2;
             container.add(cancel, c);
+
+            c.gridx = 3;
+            c.gridy = 1;
+            container.add(browse, c);
+
+            //__________________________________________________________________
+            finish.setEnabled(false);
             //______________________________________________________________________
             finish.addActionListener(this);
             cancel.addActionListener(this);
@@ -221,6 +240,24 @@ public class BuilderPatternFrame extends JFrame implements ActionListener, Patte
             dialog.setSize(480, 480);
             dialog.setLocationRelativeTo(null);
             dialog.setVisible(true);
+            //______________________________________________________________________________
+            //openProject.setAccelerator(KeyStroke.getKeyStroke("control shift O"));
+            browse.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    //FileListener.openFolderw();
+                    j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+                    j.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                    int r = j.showOpenDialog(null);
+                    myTextField = new JTextField();
+                    myTextField.setText(j.getSelectedFile().getAbsolutePath());
+                    pa = myTextField.getText() + "\\" + pNameField.getText();
+                    name = j.getSelectedFile().toString();
+                    name = name.substring(name.lastIndexOf('\\') + 1);
+
+                    finish.setEnabled(true);
+                }
+            });
 
         } else if (e.getSource() == cancel) {
             builderPanel.setVisible(false);
@@ -229,38 +266,86 @@ public class BuilderPatternFrame extends JFrame implements ActionListener, Patte
             container.setVisible(false);
             dialog.setVisible(false);
         } else if (e.getSource() == finish) {
+
+            //__________________copy files____________________________________________________
+            pLocField.setText(pa);
             String pNameF = pNameField.getText();
+
             String pLoc = pLocField.getText();
 
-            //Path path = Paths.get(pLoc+"\\"+pNameF);
-            //Files.createDirectories(path.getParent());
-            /*try {
-                Path path = Paths.get(pLoc + "\\" + pNameF);
-                Files.createDirectories(path.getParent());
-                File f = new File(path.toString());
+            try {
+                Path pathh = Paths.get(pLoc.toString() + "\\" + pNameF.toString());
+                Files.createDirectories(pathh.getParent());
+                File f = new File(pathh.toString());
                 f.mkdirs();
-                String source = "D:\\projet4\\Project2-Team1\\NFP121-202-P2-T1\\PatternFiles";
-                File sourceFile = new File(source);
-                File destinationFile = new File("D:\\projet4\\Project2-Team1\\CeatedFiles");
-
-                FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                FileOutputStream fileOutputStream = new FileOutputStream(
-                        destinationFile);
-
-                int bufferSize;
-                byte[] bufffer = new byte[512];
-                while ((bufferSize = fileInputStream.read(bufffer)) > 0) {
-                    fileOutputStream.write(bufffer, 0, bufferSize);
-                }
-                fileInputStream.close();
-                fileOutputStream.close();
 
             } catch (FileAlreadyExistsException exx) {
                 System.err.println("already exists: " + exx.getMessage());
             } catch (IOException ex) {
                 Logger.getLogger(BuilderPatternFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+            }
 
+            String sourceFolder = "patternFiles\\BuilderPatternFiles";
+            String targetFolder = pLoc.toString() + "\\" + pNameF.toString();
+
+            File sFile = new File(sourceFolder);
+            // Find files with specified extension
+            File[] sourceFiles = sFile.listFiles(new FilenameFilter() {
+
+                @Override
+                public boolean accept(File dir, String name) {
+                    if (name.endsWith(".java")) {// change this to your extension
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+
+            // let us copy each file to the target folder
+            for (File fSource : sourceFiles) {
+                File fTarget = new File(new File(targetFolder), fSource.getName());
+                copyFileUsingStream(fSource, fTarget);
+                // fSource.delete(); // Uncomment this line if you want source file deleted
+            }
+            //__________________________________________________________________
+
+            SplitPane.getInstanSplitPane().addListElement(name);
+            Integer elementNum = 0;
+            FileListener.getListOfFiles().put(elementNum, pa);
+            elementNum += 1;
+
+            addFilesToList(pa, 0);
+
+            //__________________________________________________________________
+            MyGui gui = MyGui.getGui();
+            container.setVisible(false);
+            dialog.setVisible(false);
+            gui.getMainPatternPanel().setVisible(false);
+            gui.getPanelTextEditor().setVisible(true);
+        }
+    }
+
+
+    private static void copyFileUsingStream(File source, File dest) {
+        InputStream is = null;
+        OutputStream os = null;
+        try {
+            is = new FileInputStream(source);
+            os = new FileOutputStream(dest);
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = is.read(buffer)) > 0) {
+                os.write(buffer, 0, length);
+            }
+        } catch (Exception ex) {
+            System.out.println("Unable to copy file:" + ex.getMessage());
+        } finally {
+            try {
+                is.close();
+                os.close();
+            } catch (Exception ex) {
+            }
         }
     }
 
@@ -274,5 +359,10 @@ public class BuilderPatternFrame extends JFrame implements ActionListener, Patte
         panel.add(comp, c);
     }
 
-}
+    @Override
+    public String getNameFolder() {
+        return pNameField.getText();
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
+}

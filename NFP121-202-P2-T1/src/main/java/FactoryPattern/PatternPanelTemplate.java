@@ -10,5 +10,7 @@ public interface PatternPanelTemplate {
     public void setText();
     public String getImagepath();
     public String getTitle();
+    public String getNameFolder();
 
 }
+

@@ -218,4 +218,8 @@ public class FileListener {
         }
     }
     
+        public static HashMap<Integer, String> getListOfFiles() {
+        return listOfFiles;
+    }
+    
 }
