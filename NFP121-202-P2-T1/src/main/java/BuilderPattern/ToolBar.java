@@ -1,5 +1,10 @@
 package BuilderPattern;
 
+import Action.FileListener;
+import Action.NewFile;
+import GraphicInterface.MyGui;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
@@ -50,10 +55,34 @@ public class ToolBar {
         toolBar.add(toolbar_redo);
         toolBar.addSeparator();
         toolBar.add(toolbar_run);
+
+        toolbar_newFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+               new NewFile();
+            }
+        });
+        
+        toolbar_newProject.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                MyGui gui = MyGui.getGui();
+                //gui.getFramePanel().setLayout(new FlowLayout());
+                gui.getMainPatternPanel().setVisible(true);
+                gui.getPanelTextEditor().setVisible(false);
+            }
+        });
+
+        toolbar_saveAll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                FileListener.SaveAll_Action();
+            }
+        });
     }
 
     public JToolBar getToolBar() {
         return toolBar;
     }
-    
+
 }

@@ -7,27 +7,38 @@ package BuilderPattern;
 
 import javax.swing.*;
 
-public class PatternPanel  {
+/**
+ *
+ * @author Rim
+ */
+public class PatternPanel {
+
     public static PatternPanel patternPanel;
     private JPanel mainPanel, categoryPanel, creationalPanel, structuralPanel, behavioralPanel;
 
     private PatternPanel(JPanel mainPanel) {
         this.mainPanel = mainPanel;
-    } 
-    public static PatternPanel getInstance(JPanel mainPanel){
-        if(patternPanel== null) 
-            patternPanel = new PatternPanel( mainPanel);
+    }
+
+    public static PatternPanel getInstance(JPanel mainPanel) {
+        if (patternPanel == null) {
+            patternPanel = new PatternPanel(mainPanel);
+        }
         return patternPanel;
     }
-    public static PatternPanel getInstance(){
-        if(patternPanel== null) 
+
+    public static PatternPanel getInstance() {
+        if (patternPanel == null) {
             patternPanel = new PatternPanel(null);
+        }
         return patternPanel;
     }
+
     public JPanel getMainPanel() {
-        if(mainPanel == null)
+        if (mainPanel == null) {
             mainPanel = PatternPanelButton.getInstancePattern().getMainPanel();
+        }
         return mainPanel;
     }
-    
+
 }

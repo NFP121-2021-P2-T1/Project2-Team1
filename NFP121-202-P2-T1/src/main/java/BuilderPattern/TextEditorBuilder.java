@@ -7,6 +7,10 @@ package BuilderPattern;
 
 import javax.swing.*;
 
+/**
+ *
+ * @author Rim
+ */
 public class TextEditorBuilder extends Builder {
 
     private JToolBar toolBar;
@@ -19,7 +23,7 @@ public class TextEditorBuilder extends Builder {
     }
 
     public TextEditor getResult() {
-        return TextEditor.getInstance(toolBar , splitPane);
+        return TextEditor.getInstance(toolBar, splitPane);
     }
 
     public JToolBar getToolBar() {

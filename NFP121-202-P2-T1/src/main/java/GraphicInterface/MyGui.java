@@ -1,9 +1,14 @@
 package GraphicInterface;
 
+import Action.FileListener;
 import BuilderPattern.*;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ *
+ * @author Rim
+ */
 public class MyGui extends JFrame {
 
     private static MyGui myInterface;
@@ -16,6 +21,15 @@ public class MyGui extends JFrame {
 
     private MyGui() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                FileListener.CloseAll_Action();
+
+                System.exit(0);
+            }
+
+        });
         //______________________________________________________________________        
         menubar = Menubar.getInstanceMenuBar().getMenubar();
         setJMenuBar(menubar);
@@ -50,7 +64,7 @@ public class MyGui extends JFrame {
         panelTextEditor.setVisible(false);
         add(framePanel);
 
-        setPreferredSize(new Dimension(800, 600));
+        setPreferredSize(new Dimension(900, 700));
         setBackground(new Color(251, 252, 251));
         pack();
         setVisible(true);

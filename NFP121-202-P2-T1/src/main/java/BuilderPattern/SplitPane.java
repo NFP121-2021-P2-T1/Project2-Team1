@@ -8,6 +8,10 @@ import java.awt.event.MouseEvent;
 import java.util.Observable;
 import javax.swing.*;
 
+/**
+ *
+ * @author Rim
+ */
 public class SplitPane extends Observable {
 
     private static SplitPane mainSplit;

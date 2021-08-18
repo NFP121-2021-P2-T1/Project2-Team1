@@ -1,6 +1,7 @@
 package GraphicInterface;
 
 import Action.FileListener;
+import Action.NewFile;
 import BuilderPattern.SplitPane;
 import Command.*;
 import java.awt.*;
@@ -18,13 +19,13 @@ public class Menubar {
     private JMenuBar menubar;
     private JMenu file, edit, view, help;
 
-    private JMenuItem newFile, newProject, openFile, openProject, save, saveAs;
-    private JMenuItem cut, copy, paste, find, replace;
+    private JMenuItem newFile, newProject, openFile, openProject, save, saveAs, saveAll, closeAll;
+    private JMenuItem cut, copy, paste, find, replace, undo, redo;
     private JMenuItem font;
     private JMenu lookAndFeel;
     private JMenuItem fall;
     private JMenuItem about, copyright;
-    
+
     private Invoker command;
 
     private Menubar() {
@@ -42,12 +43,17 @@ public class Menubar {
         openProject = new JMenuItem("Open Project");
         save = new JMenuItem("Save");
         saveAs = new JMenuItem("Save As");
+        saveAll = new JMenuItem("Save All");
+        closeAll = new JMenuItem("Close All");
+
         //______________________________________________________________________
         cut = new JMenuItem("Cut");
         copy = new JMenuItem("Copy");
         paste = new JMenuItem("Paste");
         find = new JMenuItem("Find");
         replace = new JMenuItem("Replace");
+        undo = new JMenuItem("Undo");
+        redo = new JMenuItem("Redo");
         //______________________________________________________________________
         lookAndFeel = new JMenu("Look & Feel");
         font = new JMenuItem("Font");
@@ -61,8 +67,12 @@ public class Menubar {
         //Set icon to some JMenuItem
         newFile.setIcon(new ImageIcon("icons\\newFile.png"));
         newProject.setIcon(new ImageIcon("icons\\newProject.png"));
+        closeAll.setIcon(new ImageIcon("icons\\close.png"));
 
         openProject.setIcon(new ImageIcon("icons\\openProject.png"));
+
+        undo.setIcon(new ImageIcon("icons\\undo.png"));
+        redo.setIcon(new ImageIcon("icons\\redo.png"));
 
         about.setIcon(new ImageIcon("icons\\about.png"));
         copyright.setIcon(new ImageIcon("icons\\copyright.png"));
@@ -79,6 +89,11 @@ public class Menubar {
 
         file.add(save);
         file.add(saveAs);
+        file.add(saveAll);
+
+        file.addSeparator();
+        
+        file.add(closeAll);
         //______________________________________________________________________
         edit.add(cut);
         edit.add(copy);
@@ -86,6 +101,9 @@ public class Menubar {
         edit.addSeparator();
         edit.add(find);
         edit.add(replace);
+        edit.addSeparator();
+        edit.add(undo);
+        edit.add(redo);
         //______________________________________________________________________
         view.add(font);
         view.add(lookAndFeel);
@@ -103,6 +121,14 @@ public class Menubar {
         //__________________________________Changing color____________________________________
         // changeTheme(new Color(191, 191, 191), new Color(250, 250, 250));
         //__________________________end of changing color______________________________________
+        newFile.setAccelerator(KeyStroke.getKeyStroke("control  N"));
+        newFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                new NewFile();
+            }
+        });
+
         newProject.setAccelerator(KeyStroke.getKeyStroke("control shift N"));
         newProject.addActionListener(new ActionListener() {
             @Override
@@ -144,6 +170,26 @@ public class Menubar {
             }
         });
 
+        saveAs.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                FileListener.SaveAs_Action();
+            }
+        });
+        saveAll.setAccelerator(KeyStroke.getKeyStroke("control shift S"));
+        saveAll.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                FileListener.SaveAll_Action();
+            }
+        });
+
+        closeAll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                FileListener.CloseAll_Action();
+            }
+        });
+
+        //______________________________________________________________________
         find.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -156,29 +202,46 @@ public class Menubar {
                 Replace_Action();
             }
         });
-        
+        //______________________________________________________________________
+        copy.setAccelerator(KeyStroke.getKeyStroke("control C"));
         copy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                 //FileListener.Copy_Action();
-                 command.doCommand(new CopyCommand());
+                //FileListener.Copy_Action();
+                command.doCommand(new CopyCommand());
             }
         });
-       paste.addActionListener(new ActionListener() {
+
+        paste.setAccelerator(KeyStroke.getKeyStroke("control V"));
+        paste.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                 //FileListener.Paste_Action();
-                 command.doCommand(new PasteCommand());
+                //FileListener.Paste_Action();
+                command.doCommand(new PasteCommand());
             }
         });
-       cut.addActionListener(new ActionListener() {
+
+        cut.setAccelerator(KeyStroke.getKeyStroke("control X"));
+        cut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                 //FileListener.Cut_Action();
-                 command.doCommand(new CutCommand());
+                //FileListener.Cut_Action();
+                command.doCommand(new CutCommand());
             }
         });
-         
+
+        //______________________________________________________________________
+        //ABOUT
+        JPanel aboutPanel = new JPanel();
+        about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, ActionEvent.CTRL_MASK));
+        about.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String message = "Text Editor using Design Patterns\n"
+                        + "Version 16/8/2021\n";
+                JOptionPane.showMessageDialog(aboutPanel, "<html><center>" + "<br>" + message);
+            }
+        });
+
     }
 
     public static Menubar getInstanceMenuBar() {
@@ -191,7 +254,7 @@ public class Menubar {
     public JMenuBar getMenubar() {
         return menubar;
     }
-    
+
     //______________________MenuBar Color change ________________________________________________
     private void changeTheme(Color back, Color fore) {
         changeComponentColors(menubar, back, fore);

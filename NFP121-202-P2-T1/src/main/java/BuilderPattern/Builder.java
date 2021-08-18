@@ -4,8 +4,14 @@
  * and open the template in the editor.
  */
 package BuilderPattern;
+
 import javax.swing.*;
 
-public abstract class Builder extends JFrame{
+/**
+ *
+ * @author Rim
+ */
+public abstract class Builder extends JFrame {
+
     public abstract void build();
 }

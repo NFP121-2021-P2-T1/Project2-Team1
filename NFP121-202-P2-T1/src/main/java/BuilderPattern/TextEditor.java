@@ -7,6 +7,10 @@ package BuilderPattern;
 
 import javax.swing.*;
 
+/**
+ *
+ * @author Rim
+ */
 public class TextEditor {
 
     private static TextEditor textEditor;
@@ -17,15 +21,18 @@ public class TextEditor {
         this.toolBar = toolBar;
         this.splitPane = splitPane;
     }
-    
-    public static TextEditor getInstance(JToolBar toolBar, JSplitPane splitPane){
-        if(textEditor == null) 
-            textEditor = new TextEditor(toolBar,splitPane);
+
+    public static TextEditor getInstance(JToolBar toolBar, JSplitPane splitPane) {
+        if (textEditor == null) {
+            textEditor = new TextEditor(toolBar, splitPane);
+        }
         return textEditor;
     }
-    public static TextEditor getInstance(){
-        if(textEditor == null) 
-            textEditor = new TextEditor(null,null);
+
+    public static TextEditor getInstance() {
+        if (textEditor == null) {
+            textEditor = new TextEditor(null, null);
+        }
         return textEditor;
     }
 
@@ -36,16 +43,18 @@ public class TextEditor {
     public void setSplitPane(JSplitPane splitPane) {
         this.splitPane = splitPane;
     }
-    
+
     public JToolBar getToolBar() {
-        if(toolBar == null)
+        if (toolBar == null) {
             toolBar = new ToolBar().getToolBar();
+        }
         return toolBar;
     }
 
     public JSplitPane getSplitPane() {
-        if(splitPane == null)
+        if (splitPane == null) {
             splitPane = SplitPane.getInstanSplitPane().getSplitPane();
+        }
         return splitPane;
     }
 
