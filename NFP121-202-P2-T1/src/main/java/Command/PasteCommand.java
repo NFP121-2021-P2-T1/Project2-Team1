@@ -6,11 +6,10 @@
 package Command;
 
 import BuilderPattern.SplitPane;
+import MementoPattern.*;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 
 /**
@@ -19,6 +18,9 @@ import javax.swing.JTextPane;
  */
 public class PasteCommand extends Command {
 
+    CareTaker c = CareTaker.getCareTaker();
+    Originator o;
+
     @Override
     public void execute() {
         if (tabbedPane.getTabCount() > 0) {
@@ -26,6 +28,10 @@ public class PasteCommand extends Command {
             JTextPane textPane = (JTextPane) (((JScrollPane) tabbedPane.getComponentAt(sel)).getViewport()).getComponent(0);
             Transferable cliptran = SplitPane.getInstanSplitPane().getClip().getContents(SplitPane.getInstanSplitPane().getRighTabbedPane());
             try {
+                o = Originator.getOriginator();
+                Originator.getOriginator().setTextPane(textPane.getText());
+                c.saveToUndo(o.saveToMemento());
+
                 String selected_text = (String) cliptran.getTransferData(DataFlavor.stringFlavor);
                 textPane.replaceSelection(selected_text);
 

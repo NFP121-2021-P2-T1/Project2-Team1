@@ -5,7 +5,13 @@
  */
 package BuilderPattern;
 
-import FactoryPattern.*;
+import TemplateMethodPattern.DecoratorPatternFrame;
+import TemplateMethodPattern.BuilderPatternFrame;
+import TemplateMethodPattern.PatternPanelTemplate;
+import TemplateMethodPattern.CompositePatternFrame;
+import TemplateMethodPattern.SingletonPatternFrame;
+import TemplateMethodPattern.VisitorPatternFrame;
+import TemplateMethodPattern.MementoPatternFrame;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -62,10 +68,7 @@ public class PatternPanelButton implements ActionListener {
         structuralBtn.setFocusable(false);
         behavioralBtn.setFocusable(false);
 
-        //__________________Set button border_____________________________________________________
-        // creationalBtn.setBorder(new RoundedBorder(20));
-        // structuralBtn.setBorder(new RoundedBorder(20));
-        // behavioralBtn.setBorder(new RoundedBorder(20));  
+ 
         //__________________________Creational Pattern____________________________________________
         builderBtn = new JButton("Builder Pattern");
         singletonBtn = new JButton("Singleton Pattern");
@@ -76,9 +79,6 @@ public class PatternPanelButton implements ActionListener {
         //Set button unfocusable
         builderBtn.setFocusable(false);
         singletonBtn.setFocusable(false);
-        //Set button border
-        // builderBtn.setBorder(new RoundedBorder(20));
-        // singletonBtn.setBorder(new RoundedBorder(20)); 
 
         //___________________Structural Patterns___________________________________________________
         decoratorBtn = new JButton("Decorator Pattern");
@@ -90,10 +90,7 @@ public class PatternPanelButton implements ActionListener {
         //Set button unfocusable
         decoratorBtn.setFocusable(false);
         compositeBtn.setFocusable(false);
-        //Set button border
-        // decoratorBtn.setBorder(new RoundedBorder(20));
-        // compositeBtn.setBorder(new RoundedBorder(20));
-
+        
         //______________________Behavioral Pattern________________________________________________
         mementoBtn = new JButton("Memento Pattern");
         visitorBtn = new JButton("Vistor Pattern");
@@ -104,9 +101,6 @@ public class PatternPanelButton implements ActionListener {
         //Set button unfocusable
         mementoBtn.setFocusable(false);
         visitorBtn.setFocusable(false);
-        //Set button border
-        //mementoBtn.setBorder(new RoundedBorder(20));
-        //visitorBtn.setBorder(new RoundedBorder(20));
 
         //______________________________________________________________________
         back = new JButton("Back");
@@ -147,15 +141,15 @@ public class PatternPanelButton implements ActionListener {
         visitorBtn.addActionListener(this);
 
         //______________________________________________________________________
-        builderFrame = BuilderPatternFrame.getInstancFrame().getPanel();
-        mainPanel.add(builderFrame);
-        builderFrame.setVisible(false);
+        //builderFrame = BuilderPatternFrame.getInstancFrame().getPanel();
+        //mainPanel.add(builderFrame);
+        //builderFrame.setVisible(false);
 
-        singletonFrame = SingletonPatternFrame.getInstancFrame().getPanel();
+        /*singletonFrame = SingletonPatternFrame.getInstancFrame().getPanel();
         mainPanel.add(singletonFrame);
-        singletonFrame.setVisible(false);
+        singletonFrame.setVisible(false);*/
 
-        compositeFrame = CompositePatternFrame.getInstancFrame().getPanel();
+        /*compositeFrame = CompositePatternFrame.getInstancFrame().getPanel();
         mainPanel.add(compositeFrame);
         compositeFrame.setVisible(false);
 
@@ -169,7 +163,7 @@ public class PatternPanelButton implements ActionListener {
 
         visitorFrame = VisitorPatternFrame.getInstancFrame().getPanel();
         mainPanel.add(visitorFrame);
-        visitorFrame.setVisible(false);
+        visitorFrame.setVisible(false);*/
 
         mainPanel.setVisible(true);
 
@@ -196,9 +190,15 @@ public class PatternPanelButton implements ActionListener {
         }
         return pattern;
     }
+String buttonName;
+private PatternPanelTemplate pat ,pat1;
+private static JPanel pan ,pan1;
 
+    public static JPanel getPan() {
+        return pan;
+    }
+//PatternFactory factory =getInstanceFactory();
     public void actionPerformed(ActionEvent e) {
-
         if (e.getSource() == creationalBtn) {
             back.setVisible(true);
             categoryPanel.setVisible(false);
@@ -221,47 +221,68 @@ public class PatternPanelButton implements ActionListener {
             behavioralPanel.setVisible(false);
             back.setVisible(false);
         } else if (e.getSource() == builderBtn) {
+            pat = BuilderPatternFrame.getInstancFrame();
+            pan = pat.getPanel();
+            //pat = factory.getPattern(builderBtn.getName());
+            //pan = pat.getPanel();
+            mainPanel.add(pan);
+            pan.setVisible(true);
             categoryPanel.setVisible(false);
             creationalPanel.setVisible(false);
             structuralPanel.setVisible(false);
             behavioralPanel.setVisible(false);
             back.setVisible(false);
-            builderFrame.setVisible(true);
         } else if (e.getSource() == singletonBtn) {
+            pat = SingletonPatternFrame.getInstancFrame();
+            pan= pat.getPanel();
+            mainPanel.add(pan);
+            pan.setVisible(true);
             categoryPanel.setVisible(false);
             creationalPanel.setVisible(false);
             structuralPanel.setVisible(false);
             behavioralPanel.setVisible(false);
             back.setVisible(false);
-            singletonFrame.setVisible(true);
         } else if (e.getSource() == compositeBtn) {
+            pat = CompositePatternFrame.getInstancFrame();
+            pan = pat.getPanel();
+            mainPanel.add(pan);
+            pan.setVisible(true);
             categoryPanel.setVisible(false);
             creationalPanel.setVisible(false);
             structuralPanel.setVisible(false);
             behavioralPanel.setVisible(false);
             back.setVisible(false);
-            compositeFrame.setVisible(true);
         } else if (e.getSource() == decoratorBtn) {
+            pat = DecoratorPatternFrame.getInstancFrame();
+            pan = pat.getPanel();
+            mainPanel.add(pan);
+            pan.setVisible(true);
             categoryPanel.setVisible(false);
             creationalPanel.setVisible(false);
             structuralPanel.setVisible(false);
             behavioralPanel.setVisible(false);
             back.setVisible(false);
-            decoratorFrame.setVisible(true);
+  
         } else if (e.getSource() == mementoBtn) {
+            pat = MementoPatternFrame.getInstancFrame();
+            pan = pat.getPanel();
+            mainPanel.add(pan);
+            pan.setVisible(true);
             categoryPanel.setVisible(false);
             creationalPanel.setVisible(false);
             structuralPanel.setVisible(false);
             behavioralPanel.setVisible(false);
             back.setVisible(false);
-            mementoFrame.setVisible(true);
         } else if (e.getSource() == visitorBtn) {
+            pat =VisitorPatternFrame.getInstancFrame();
+            pan = pat.getPanel();
+            mainPanel.add(pan);
+            pan.setVisible(true);
             categoryPanel.setVisible(false);
             creationalPanel.setVisible(false);
             structuralPanel.setVisible(false);
             behavioralPanel.setVisible(false);
             back.setVisible(false);
-            visitorFrame.setVisible(true);
         }
 
     }

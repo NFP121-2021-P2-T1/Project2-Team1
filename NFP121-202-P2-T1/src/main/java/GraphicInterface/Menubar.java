@@ -4,7 +4,11 @@ import Action.FileListener;
 import Action.NewFile;
 import BuilderPattern.SplitPane;
 import Command.*;
+import MementoPattern.CareTaker;
+import MementoPattern.Memento;
+import MementoPattern.Originator;
 import java.awt.*;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -92,7 +96,7 @@ public class Menubar {
         file.add(saveAll);
 
         file.addSeparator();
-        
+
         file.add(closeAll);
         //______________________________________________________________________
         edit.add(cut);
@@ -227,6 +231,54 @@ public class Menubar {
             public void actionPerformed(ActionEvent ae) {
                 //FileListener.Cut_Action();
                 command.doCommand(new CutCommand());
+            }
+        });
+
+        undo.setAccelerator(KeyStroke.getKeyStroke("control Z"));
+        undo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+
+                CareTaker c = CareTaker.getCareTaker();
+                Originator o;
+
+                JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
+                int sel = tabbedPane.getSelectedIndex();
+                JTextPane textPane = (JTextPane) (((JScrollPane) tabbedPane.getComponentAt(sel)).getViewport()).getComponent(0);
+                Transferable cliptran = SplitPane.getInstanSplitPane().getClip().getContents(SplitPane.getInstanSplitPane().getRighTabbedPane());
+
+                o = Originator.getOriginator();
+                Originator.getOriginator().setTextPane(textPane.getText());
+                c.saveToRedo(o.saveToMemento());
+
+                Memento m = CareTaker.getCareTaker().getUndo();
+                try {
+                    textPane.setText(m.getText());
+                } catch (NullPointerException z) {
+                }
+            }
+        });
+
+        redo.setAccelerator(KeyStroke.getKeyStroke("control Y"));
+        redo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
+                int sel = tabbedPane.getSelectedIndex();
+                JTextPane textPane = (JTextPane) (((JScrollPane) tabbedPane.getComponentAt(sel)).getViewport()).getComponent(0);
+                Transferable cliptran = SplitPane.getInstanSplitPane().getClip().getContents(SplitPane.getInstanSplitPane().getRighTabbedPane());
+                CareTaker c = CareTaker.getCareTaker();
+                Originator o;
+                o = Originator.getOriginator();
+                Originator.getOriginator().setTextPane(textPane.getText());
+                c.saveToUndo(o.saveToMemento());
+
+                Memento m = CareTaker.getCareTaker().getRedo();
+
+                try {
+                    textPane.setText(m.getText());
+                } catch (NullPointerException z) {
+                }
             }
         });
 

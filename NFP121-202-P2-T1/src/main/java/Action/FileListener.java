@@ -44,6 +44,7 @@ public class FileListener {
                     JScrollPane jsp = new JScrollPane(textPane);
                     String tabName = (String) list.getModel().getElementAt(index);
                     tabbedPane.addTab(tabName.trim(), jsp);
+                    tabbedPane.setSelectedIndex(countTab - 1);
 
                     textPane.read(br, null);
                     br.close();
@@ -174,6 +175,10 @@ public class FileListener {
         return listOfFiles;
     }
 
+    public static HashMap<Integer, Integer> getListOfFilesOpened() {
+        return listOfFilesOpened;
+    }
+
     public static void NewFile() {
         JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
@@ -251,6 +256,9 @@ public class FileListener {
                 }
             }
         }
+        listOfFiles.clear();
+        listOfFilesOpened.clear();
+
     }
 
     //Save as a file to a folder
