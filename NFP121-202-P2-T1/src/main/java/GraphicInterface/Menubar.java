@@ -2,14 +2,23 @@ package GraphicInterface;
 
 import Action.FileListener;
 import Action.NewFile;
+import Action.Run;
 import BuilderPattern.SplitPane;
+import BuilderPattern.ToolBar;
 import Command.*;
 import MementoPattern.CareTaker;
 import MementoPattern.Memento;
 import MementoPattern.Originator;
+import TemplateMethodPattern.PatternPanelTemplate;
 import java.awt.*;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileFilter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -21,13 +30,15 @@ public class Menubar {
     private static Menubar mainMenu;
 
     private JMenuBar menubar;
-    private JMenu file, edit, view, help;
+    private JMenu file, edit, view, window, help;
 
     private JMenuItem newFile, newProject, openFile, openProject, save, saveAs, saveAll, closeAll;
     private JMenuItem cut, copy, paste, find, replace, undo, redo;
     private JMenuItem font;
     private JMenu lookAndFeel;
     private JMenuItem fall;
+
+    private JMenuItem run;
     private JMenuItem about, copyright;
 
     private Invoker command;
@@ -40,6 +51,7 @@ public class Menubar {
         edit = new JMenu("Edit");
         view = new JMenu("View");
         help = new JMenu("Help");
+        window = new JMenu("Window");
         //______________________________________________________________________
         newFile = new JMenuItem("New File");
         newProject = new JMenuItem("New Project");
@@ -62,6 +74,7 @@ public class Menubar {
         lookAndFeel = new JMenu("Look & Feel");
         font = new JMenuItem("Font");
 
+        run = new JMenuItem("Run");
         //______________________________________________________________________
         fall = new JMenuItem("Fall");
         //______________________________________________________________________
@@ -77,6 +90,8 @@ public class Menubar {
 
         undo.setIcon(new ImageIcon("icons\\undo.png"));
         redo.setIcon(new ImageIcon("icons\\redo.png"));
+
+        run.setIcon(new ImageIcon("icons\\run.png"));
 
         about.setIcon(new ImageIcon("icons\\about.png"));
         copyright.setIcon(new ImageIcon("icons\\copyright.png"));
@@ -114,12 +129,15 @@ public class Menubar {
         //______________________________________________________________________
         lookAndFeel.add(fall);
         //______________________________________________________________________
+        window.add(run);
+        //______________________________________________________________________
         help.add(about);
         help.add(copyright);
         //______________________________________________________________________
         menubar.add(file);
         menubar.add(edit);
         menubar.add(view);
+        menubar.add(window);
         menubar.add(help);
 
         //__________________________________Changing color____________________________________
@@ -283,6 +301,36 @@ public class Menubar {
         });
 
         //______________________________________________________________________
+        run.setAccelerator(KeyStroke.getKeyStroke("shift F6"));
+        PatternPanelTemplate patt;
+        run.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
+                if (tabbedPane.getTabCount() > 0) {
+                    int sel = tabbedPane.getSelectedIndex();
+                    JTextPane textPane = (JTextPane) (((JScrollPane) tabbedPane.getComponentAt(sel)).getViewport()).getComponent(0);
+
+                    int selected = tabbedPane.getSelectedIndex();
+                    int listElementIndex = FileListener.getListOfFilesOpened().get(selected);
+                    String fn = FileListener.getListOfFiles().get(listElementIndex);
+                    File f = new File(fn);
+                    String folderPath = f.getParent();
+                    //folder path
+                    File directory = new File(folderPath);
+                    FileFilter fileFilter = file -> !file.isDirectory() && file.getName()
+                            .endsWith(".java");
+                    ArrayList<File> projectFiles = new ArrayList<>(Arrays.asList(directory.listFiles(fileFilter)));
+
+                    try {
+                        Run.compileJava(projectFiles);
+                        Run.runJava(directory);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ToolBar.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        });
         //ABOUT
         JPanel aboutPanel = new JPanel();
         about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, ActionEvent.CTRL_MASK));

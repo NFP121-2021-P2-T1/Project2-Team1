@@ -26,7 +26,6 @@ public class MyGui extends JFrame {
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 FileListener.CloseAll_Action();
 
-                System.exit(0);
             }
 
         });

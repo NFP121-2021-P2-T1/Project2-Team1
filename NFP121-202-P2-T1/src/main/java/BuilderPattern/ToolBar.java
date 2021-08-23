@@ -5,6 +5,10 @@ import Action.NewFile;
 import Action.Run;
 import TemplateMethodPattern.PatternPanelTemplate;
 import GraphicInterface.MyGui;
+import MementoPattern.CareTaker;
+import MementoPattern.Memento;
+import MementoPattern.Originator;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -91,6 +95,53 @@ public class ToolBar {
                 FileListener.SaveAll_Action();
             }
         });
+        
+        toolbar_undo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+
+                CareTaker c = CareTaker.getCareTaker();
+                Originator o;
+
+                JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
+                int sel = tabbedPane.getSelectedIndex();
+                JTextPane textPane = (JTextPane) (((JScrollPane) tabbedPane.getComponentAt(sel)).getViewport()).getComponent(0);
+                Transferable cliptran = SplitPane.getInstanSplitPane().getClip().getContents(SplitPane.getInstanSplitPane().getRighTabbedPane());
+
+                o = Originator.getOriginator();
+                Originator.getOriginator().setTextPane(textPane.getText());
+                c.saveToRedo(o.saveToMemento());
+
+                Memento m = CareTaker.getCareTaker().getUndo();
+                try {
+                    textPane.setText(m.getText());
+                } catch (NullPointerException z) {
+                }
+            }
+        });
+
+        toolbar_redo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
+                int sel = tabbedPane.getSelectedIndex();
+                JTextPane textPane = (JTextPane) (((JScrollPane) tabbedPane.getComponentAt(sel)).getViewport()).getComponent(0);
+                Transferable cliptran = SplitPane.getInstanSplitPane().getClip().getContents(SplitPane.getInstanSplitPane().getRighTabbedPane());
+                CareTaker c = CareTaker.getCareTaker();
+                Originator o;
+                o = Originator.getOriginator();
+                Originator.getOriginator().setTextPane(textPane.getText());
+                c.saveToUndo(o.saveToMemento());
+
+                Memento m = CareTaker.getCareTaker().getRedo();
+
+                try {
+                    textPane.setText(m.getText());
+                } catch (NullPointerException z) {
+                }
+            }
+        });
+        
         PatternPanelTemplate patt;
         toolbar_run.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

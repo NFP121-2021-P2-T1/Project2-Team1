@@ -102,7 +102,6 @@ public class FileListener {
                     if (extension.equals("java")) {
                         name = s + "" + f.getName();
                         listOfFiles.put(elementNum, f.getAbsolutePath());
-                        System.out.println(f.getParent());
                         elementNum += 1;
                         SplitPane.getInstanSplitPane().addListElement(name);
                     }
@@ -258,6 +257,8 @@ public class FileListener {
         }
         listOfFiles.clear();
         listOfFilesOpened.clear();
+
+        System.exit(0);
 
     }
 
