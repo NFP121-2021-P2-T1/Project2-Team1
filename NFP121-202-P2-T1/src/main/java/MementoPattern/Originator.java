@@ -5,9 +5,6 @@
  */
 package MementoPattern;
 
-import BuilderPattern.SplitPane;
-import javax.swing.*;
-
 /**
  *
  * @author Rim

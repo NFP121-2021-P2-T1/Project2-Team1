@@ -1,20 +1,12 @@
 package BuilderPattern;
 
-import Action.FileListener;
-import Action.NewFile;
-import Action.Run;
+import Action.*;
 import TemplateMethodPattern.PatternPanelTemplate;
 import GraphicInterface.MyGui;
-import MementoPattern.CareTaker;
-import MementoPattern.Memento;
-import MementoPattern.Originator;
-import java.awt.datatransfer.Transferable;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileFilter;
-import java.util.ArrayList;
-import java.util.Arrays;
+import MementoPattern.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -83,7 +75,6 @@ public class ToolBar {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 MyGui gui = MyGui.getGui();
-                //gui.getFramePanel().setLayout(new FlowLayout());
                 gui.getMainPatternPanel().setVisible(true);
                 gui.getPanelTextEditor().setVisible(false);
             }
@@ -100,18 +91,20 @@ public class ToolBar {
             @Override
             public void actionPerformed(ActionEvent ae) {
 
+                //get the careTaker
                 CareTaker c = CareTaker.getCareTaker();
                 Originator o;
 
                 JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
                 int sel = tabbedPane.getSelectedIndex();
                 JTextPane textPane = (JTextPane) (((JScrollPane) tabbedPane.getComponentAt(sel)).getViewport()).getComponent(0);
-                Transferable cliptran = SplitPane.getInstanSplitPane().getClip().getContents(SplitPane.getInstanSplitPane().getRighTabbedPane());
 
+                //saving the current state to redo
                 o = Originator.getOriginator();
                 Originator.getOriginator().setTextPane(textPane.getText());
                 c.saveToRedo(o.saveToMemento());
 
+                //getting the last state from undo
                 Memento m = CareTaker.getCareTaker().getUndo();
                 try {
                     textPane.setText(m.getText());
@@ -126,13 +119,15 @@ public class ToolBar {
                 JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
                 int sel = tabbedPane.getSelectedIndex();
                 JTextPane textPane = (JTextPane) (((JScrollPane) tabbedPane.getComponentAt(sel)).getViewport()).getComponent(0);
-                Transferable cliptran = SplitPane.getInstanSplitPane().getClip().getContents(SplitPane.getInstanSplitPane().getRighTabbedPane());
+
                 CareTaker c = CareTaker.getCareTaker();
                 Originator o;
+                //saving the current state to undo
                 o = Originator.getOriginator();
                 Originator.getOriginator().setTextPane(textPane.getText());
                 c.saveToUndo(o.saveToMemento());
 
+                //getting the last state from redo
                 Memento m = CareTaker.getCareTaker().getRedo();
 
                 try {
@@ -144,6 +139,7 @@ public class ToolBar {
         
         PatternPanelTemplate patt;
         toolbar_run.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
 
                 JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();

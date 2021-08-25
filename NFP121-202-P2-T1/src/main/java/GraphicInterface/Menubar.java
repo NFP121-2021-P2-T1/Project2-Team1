@@ -1,22 +1,15 @@
 package GraphicInterface;
 
-import Action.FileListener;
-import Action.NewFile;
-import Action.Run;
-import BuilderPattern.SplitPane;
-import BuilderPattern.ToolBar;
+import Action.*;
+import BuilderPattern.*;
 import Command.*;
-import MementoPattern.CareTaker;
-import MementoPattern.Memento;
-import MementoPattern.Originator;
+import MementoPattern.*;
 import TemplateMethodPattern.PatternPanelTemplate;
 import java.awt.*;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileFilter;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.*;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -140,8 +133,6 @@ public class Menubar {
         menubar.add(window);
         menubar.add(help);
 
-        //__________________________________Changing color____________________________________
-        // changeTheme(new Color(191, 191, 191), new Color(250, 250, 250));
         //__________________________end of changing color______________________________________
         newFile.setAccelerator(KeyStroke.getKeyStroke("control  N"));
         newFile.addActionListener(new ActionListener() {
@@ -331,18 +322,36 @@ public class Menubar {
                 }
             }
         });
+        //______________________________________________________________________
+
         //ABOUT
         JPanel aboutPanel = new JPanel();
         about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, ActionEvent.CTRL_MASK));
         about.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 String message = "Text Editor using Design Patterns\n"
-                        + "Version 16/8/2021\n";
+                        + "Text editor for creating java design pattern.\n"
+                        + "Choose a design pattern and start editing its classes.\n";
+
                 JOptionPane.showMessageDialog(aboutPanel, "<html><center>" + "<br>" + message);
             }
         });
 
+        //Copyright
+        JPanel copyrightPanel = new JPanel();
+        copyright.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.CTRL_MASK));
+        copyright.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String message = "Text Editor using Design Patterns\n"
+                        + "Version 16/8/2021\n";
+                JOptionPane.showMessageDialog(copyrightPanel, "<html><center>" + "<br>" + message);
+            }
+        });
+
     }
+    //__________________________________________________________________________
 
     public static Menubar getInstanceMenuBar() {
         if (mainMenu == null) {
@@ -354,63 +363,7 @@ public class Menubar {
     public JMenuBar getMenubar() {
         return menubar;
     }
-
-    //______________________MenuBar Color change ________________________________________________
-    private void changeTheme(Color back, Color fore) {
-        changeComponentColors(menubar, back, fore);
-
-        MenuElement[] menus = menubar.getSubElements();
-
-        for (MenuElement menuElement : menus) {
-
-            JMenu menu = (JMenu) menuElement.getComponent();
-            changeComponentColors(menu, back, fore);
-            menu.setOpaque(true);
-
-            MenuElement[] menuElements = menu.getSubElements();
-
-            for (MenuElement popupMenuElement : menuElements) {
-
-                JPopupMenu popupMenu = (JPopupMenu) popupMenuElement.getComponent();
-                popupMenu.setBorder(null);
-
-                MenuElement[] menuItens = popupMenuElement.getSubElements();
-
-                for (MenuElement menuItemElement : menuItens) {
-
-                    JMenuItem menuItem = (JMenuItem) menuItemElement.getComponent();
-                    changeComponentColors(menuItem, back, fore);
-                    menuItem.setOpaque(true);
-                    //for the submenu lookAndFeel
-                    MenuElement[] menuItens1 = menuItem.getSubElements();
-
-                    for (MenuElement menuItemElement1 : menuItens1) {
-
-                        JPopupMenu popupMenu1 = (JPopupMenu) menuItemElement1.getComponent();
-                        popupMenu1.setBorder(null);
-
-                        MenuElement[] menuItens2 = menuItemElement1.getSubElements();
-
-                        for (MenuElement menuItemElement2 : menuItens2) {
-
-                            JMenuItem menuItem2 = (JMenuItem) menuItemElement2.getComponent();
-                            changeComponentColors(menuItem2, back, fore);
-                            menuItem2.setOpaque(true);
-                        }
-                    }
-                }//end menuItemElement
-            }//end for popupMenuElement
-        }//end for menuElement
-    }
-    //______________________End Of MenuBar Color change ________________________________________________
-
-    //______________________Color change ________________________________________________
-    private void changeComponentColors(Component comp, Color background, Color foreground) {
-        //Method to change color of a component 
-        comp.setBackground(background);
-        comp.setForeground(foreground);
-    }
-    //______________________End Of Color change ________________________________________________
+    //__________________________________________________________________________
     //Replace
     JTextField findText;
     JTextField replaceText;

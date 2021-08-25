@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Command;
 
 import BuilderPattern.SplitPane;
@@ -19,6 +14,7 @@ public class CopyCommand extends Command {
     @Override
     public void execute() {
         if (tabbedPane.getTabCount() > 0) {
+            //get the index of the selected tabbedPane and get the textPane inide this tabbedPane
             int sel = tabbedPane.getSelectedIndex();
             JTextPane textPane = (JTextPane) (((JScrollPane) tabbedPane.getComponentAt(sel)).getViewport()).getComponent(0);
             String selected_text = textPane.getSelectedText();

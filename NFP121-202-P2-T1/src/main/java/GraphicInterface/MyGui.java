@@ -34,7 +34,6 @@ public class MyGui extends JFrame {
         setJMenuBar(menubar);
 
         framePanel = new JPanel();
-        //framePanel.setLayout(new GridBagLayout());
 
         mainPatternPanel = new JPanel(new GridBagLayout());
         //______________________________________________________________________
@@ -58,12 +57,13 @@ public class MyGui extends JFrame {
         toolBar = textEditor.getToolBar();
         panelTextEditor.add(toolBar, BorderLayout.PAGE_START);
         panelTextEditor.add(splitPane);
+        panelTextEditor.setPreferredSize(new Dimension(1100, 610));
 
         framePanel.add(panelTextEditor);
         panelTextEditor.setVisible(false);
         add(framePanel);
 
-        setPreferredSize(new Dimension(900, 700));
+        setPreferredSize(new Dimension(1200, 700));
         setBackground(new Color(251, 252, 251));
         pack();
         setVisible(true);

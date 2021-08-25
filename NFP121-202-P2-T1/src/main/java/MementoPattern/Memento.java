@@ -5,8 +5,6 @@
  */
 package MementoPattern;
 
-import javax.swing.*;
-
 /**
  *
  * @author Rim
