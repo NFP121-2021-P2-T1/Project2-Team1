@@ -1,7 +1,7 @@
 package BuilderPattern;
 
 import Action.*;
-import TemplateMethodPattern.PatternPanelTemplate;
+import FactoryPattern.PatternPanelTemplate;
 import GraphicInterface.MyGui;
 import MementoPattern.*;
 import java.awt.event.*;

@@ -4,7 +4,7 @@ import Action.*;
 import BuilderPattern.*;
 import Command.*;
 import MementoPattern.*;
-import TemplateMethodPattern.PatternPanelTemplate;
+import FactoryPattern.PatternPanelTemplate;
 import java.awt.*;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
