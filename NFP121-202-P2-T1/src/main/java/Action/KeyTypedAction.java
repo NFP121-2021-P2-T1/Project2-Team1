@@ -23,17 +23,10 @@ class KeyTypedAction implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent evt) {
-        command = new Invoker();
         int keycode = evt.getKeyCode();
         boolean is_ControlDown = evt.isControlDown();
 
-        if (keycode == KeyEvent.VK_X && is_ControlDown) {
-            command.doCommand(new CutCommand());
-        } else if (keycode == KeyEvent.VK_C && is_ControlDown) {
-            command.doCommand(new CopyCommand());
-        } else if (keycode == KeyEvent.VK_V && is_ControlDown) {
-            command.doCommand(new PasteCommand());
-        } else if (keycode == KeyEvent.VK_S && is_ControlDown) {
+        if (keycode == KeyEvent.VK_S && is_ControlDown) {
             FileListener.File_Save_Action();
         }
     }
@@ -58,7 +51,6 @@ class KeyTypedAction implements KeyListener {
             if (tabtext.contains("*")) {
             } else {
                 tabbedPane.setTitleAt(sel, tabbedPane.getTitleAt(sel) + "*");
-                // _tabbedPane.setIconAt(sel, new ImageIcon(this.getClass().getResource("resources/unsaved.png")));
             }
         }
     }

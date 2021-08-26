@@ -169,7 +169,7 @@ public class FileListener {
             }
         }
     }
-
+    //__________________________________________________________________________
     public static HashMap<Integer, String> getListOfFiles() {
         return listOfFiles;
     }
@@ -177,23 +177,7 @@ public class FileListener {
     public static HashMap<Integer, Integer> getListOfFilesOpened() {
         return listOfFilesOpened;
     }
-
-    public static void NewFile() {
-        JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-
-        // set the selection mode to Files and Directories
-        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        // invoke the showsOpenDialog function to show the save dialog
-        int r = j.showOpenDialog(null);
-
-        JTextField myTextField = new JTextField();
-        myTextField.setText(j.getSelectedFile().getAbsolutePath());
-        String path = myTextField.getText();
-
-        File file = new File(path);
-
-    }
-
+    //__________________________CloseAll________________________________________
     //Close all the file in textEditor and ask to save or not all the modified files
     public static void CloseAll_Action() throws IndexOutOfBoundsException {
         JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
@@ -261,7 +245,7 @@ public class FileListener {
         System.exit(0);
 
     }
-
+    //______________________SaveAs__________________________________________
     //Save as a file to a folder
     public static void SaveAs_Action() {
         JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
@@ -289,7 +273,7 @@ public class FileListener {
             }
         }
     }
-
+    //__________________________________SaveAll_______________________________
     public static void SaveAll_Action() {
         JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
         if (tabbedPane.getTabCount() > 0) {

@@ -181,8 +181,6 @@ public class PatternPanelButton implements ActionListener {
             behavioralPanel.setVisible(false);
             back.setVisible(false);
         } else if (e.getSource() == builderBtn) {
-            //pat = BuilderPatternFrame.getInstancFrame();
-            //pan = pat.getPanel();
             pat = factory.getPattern(builderBtn.getText());
             pan = pat.getPanel();
             mainPanel.add(pan);
@@ -193,8 +191,6 @@ public class PatternPanelButton implements ActionListener {
             behavioralPanel.setVisible(false);
             back.setVisible(false);
         } else if (e.getSource() == singletonBtn) {
-            //pat = SingletonPatternFrame.getInstancFrame();
-            //pan = pat.getPanel();
             pat = factory.getPattern(singletonBtn.getText());
             pan = pat.getPanel();
             mainPanel.add(pan);
@@ -205,8 +201,6 @@ public class PatternPanelButton implements ActionListener {
             behavioralPanel.setVisible(false);
             back.setVisible(false);
         } else if (e.getSource() == compositeBtn) {
-            //pat = CompositePatternFrame.getInstancFrame();
-            //pan = pat.getPanel();
             pat = factory.getPattern(compositeBtn.getText());
             pan = pat.getPanel();
             mainPanel.add(pan);

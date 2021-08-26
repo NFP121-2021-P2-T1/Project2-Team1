@@ -23,13 +23,11 @@ public class Menubar {
     private static Menubar mainMenu;
 
     private JMenuBar menubar;
-    private JMenu file, edit, view, window, help;
+    private JMenu file, edit, window, help;
 
     private JMenuItem newFile, newProject, openFile, openProject, save, saveAs, saveAll, closeAll;
     private JMenuItem cut, copy, paste, find, replace, undo, redo;
-    private JMenuItem font;
-    private JMenu lookAndFeel;
-    private JMenuItem fall;
+    
 
     private JMenuItem run;
     private JMenuItem about, copyright;
@@ -42,7 +40,6 @@ public class Menubar {
 
         file = new JMenu("File");
         edit = new JMenu("Edit");
-        view = new JMenu("View");
         help = new JMenu("Help");
         window = new JMenu("Window");
         //______________________________________________________________________
@@ -64,12 +61,8 @@ public class Menubar {
         undo = new JMenuItem("Undo");
         redo = new JMenuItem("Redo");
         //______________________________________________________________________
-        lookAndFeel = new JMenu("Look & Feel");
-        font = new JMenuItem("Font");
 
         run = new JMenuItem("Run");
-        //______________________________________________________________________
-        fall = new JMenuItem("Fall");
         //______________________________________________________________________
         about = new JMenuItem("About");
         copyright = new JMenuItem("Copyright");
@@ -117,11 +110,6 @@ public class Menubar {
         edit.add(undo);
         edit.add(redo);
         //______________________________________________________________________
-        view.add(font);
-        view.add(lookAndFeel);
-        //______________________________________________________________________
-        lookAndFeel.add(fall);
-        //______________________________________________________________________
         window.add(run);
         //______________________________________________________________________
         help.add(about);
@@ -129,7 +117,6 @@ public class Menubar {
         //______________________________________________________________________
         menubar.add(file);
         menubar.add(edit);
-        menubar.add(view);
         menubar.add(window);
         menubar.add(help);
 
