@@ -21,7 +21,6 @@ public class ToolBar {
     private JButton toolbar_undo, toolbar_redo, toolbar_run, toolbar_compile;
     private static File directory;
 
-
     public ToolBar() {
         //_______Creating Toolbar_______________________________________
         toolBar = new JToolBar();
@@ -64,6 +63,7 @@ public class ToolBar {
         toolBar.add(toolbar_redo);
         toolBar.addSeparator();
         toolBar.add(toolbar_run);
+        toolBar.add(toolbar_compile);
 
         toolbar_newFile.addActionListener(new ActionListener() {
             @Override
@@ -179,13 +179,39 @@ public class ToolBar {
             }
         });
 
-    }
-       public static File getDirectory() {
-        return directory;
+        toolbar_compile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
+                if (tabbedPane.getTabCount() > 0) {
+                    int sel = tabbedPane.getSelectedIndex();
+                    JTextPane textPane = (JTextPane) (((JScrollPane) tabbedPane.getComponentAt(sel)).getViewport()).getComponent(0);
+
+                    int selected = tabbedPane.getSelectedIndex();
+                    int listElementIndex = FileListener.getListOfFilesOpened().get(selected);
+                    String fn = FileListener.getListOfFiles().get(listElementIndex);
+                    File f = new File(fn);
+                    try {
+                        Run.compile(f);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ToolBar.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+            }
+
+        }
+        );
+
     }
 
+    public static File getDirectory() {
+        return directory;
+    }
 
     public JToolBar getToolBar() {
         return toolBar;
     }
+
 }

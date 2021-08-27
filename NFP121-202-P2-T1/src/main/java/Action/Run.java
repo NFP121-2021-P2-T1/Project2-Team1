@@ -17,6 +17,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
@@ -87,8 +89,7 @@ public class Run {
             if (projFiles == null || projFiles.isEmpty()) {
                 return;
             }
-
-            // Get the compiler
+            // Set up compiler
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
             // Get the file system manager of the compiler
             StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
@@ -97,10 +98,10 @@ public class Run {
             // A feedback object (diagnostic) to get errors
             DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
             // Get compile task
-            JavaCompiler.CompilationTask task = compiler.getTask(null,fileManager,diagnostics,null,null,compilationUnits);
+            JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnostics, null, null, compilationUnits);
             // The compile task is called
             task.call();
-
+            //check if we have any error
             exists = false;
             for (Diagnostic diagnostic : diagnostics.getDiagnostics()) {
                 System.out.format("Error on line %d in %s%n",
@@ -111,7 +112,27 @@ public class Run {
             // Close the compile resources
             fileManager.close();
         } catch (Exception e) {
-            
+
+        }
+    }
+
+    public static void compile(File f) throws IOException {
+        // set up compiler
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
+        try (// Get the file system manager of the compiler and create a compilation unit (project files)
+                StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null)) {
+            Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromFiles(Arrays
+                    .asList(f));
+            // Get compile task
+            compiler.getTask(null, fileManager, diagnostics, null, null, compilationUnits).call();
+
+            // check we don't have any compilation errors
+            for (Diagnostic diagnostic : diagnostics.getDiagnostics()) {
+                System.out.format("Error on line %d in %s%n",
+                        diagnostic.getLineNumber(),
+                        diagnostic.getSource());
+            }
         }
     }
 
