@@ -8,6 +8,7 @@ package FactoryPattern;
 import Action.FileListener;
 import static Action.FileListener.addFilesToList;
 import BuilderPattern.PatternPanelButton;
+import BuilderPattern.SplitPane;
 import GraphicInterface.MyGui;
 import java.awt.*;
 import java.awt.event.*;
@@ -279,6 +280,14 @@ public class BuilderPatternFrame extends JFrame implements ActionListener, Patte
                 }
                 //__________________________________________________________________
 
+                String path2 = pLocField.getText();
+                String name2 = path2;
+                name2 = name2.substring(path2.lastIndexOf('\\') + 1);
+                if (!FileListener.getListOfFiles().containsValue(path)) {
+                    SplitPane.getInstanSplitPane().addListElement(">"+name2);
+                    FileListener.getListOfFiles().put(FileListener.getElementNum(), path2);
+                    FileListener.setElementNum(FileListener.getElementNum() + 1);
+                }
                 addFilesToList(pa, 0);
 
                 //__________________________________________________________________

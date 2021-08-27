@@ -17,6 +17,24 @@ public class FileListener {
     private static HashMap<Integer, Integer> listOfFilesOpened = new HashMap<Integer, Integer>();
     private static int elementNum = 0;//index pour lisOfFiles
     private static int countTab = 0;//index pour listOfFilesOpened
+
+    public static int getElementNum() {
+        return elementNum;
+    }
+
+    public static void setElementNum(int elementNum) {
+        FileListener.elementNum = elementNum;
+    }
+
+    public static void setCountTab(int countTab) {
+        FileListener.countTab = countTab;
+    }
+    
+
+    public static int getCountTab() {
+        return countTab;
+    }
+    
     //__________________________________________________________________________
 
     public static void openFileInTextEditor(java.awt.event.MouseEvent evt) {
@@ -73,7 +91,7 @@ public class FileListener {
         name = name.substring(name.lastIndexOf('\\') + 1);
         //if the Folder is not opened in the list , go and open it
         if (!listOfFiles.containsValue(path)) {
-            SplitPane.getInstanSplitPane().addListElement(name);
+            SplitPane.getInstanSplitPane().addListElement(">"+name);
             listOfFiles.put(elementNum, path);
             elementNum += 1;
         }
