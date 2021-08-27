@@ -5,14 +5,13 @@
  */
 package FactoryPattern;
 
+import Action.FileListener;
 import static Action.FileListener.addFilesToList;
 import BuilderPattern.PatternPanelButton;
 import GraphicInterface.MyGui;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import javax.swing.*;
 import javax.swing.JFrame;
@@ -20,8 +19,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,29 +31,23 @@ import javax.swing.filechooser.FileSystemView;
  *
  * @author Cynthia
  */
-public class SingletonPatternFrame extends JFrame implements ActionListener, PatternPanelTemplate {
+public class SingletonPatternFrame extends JFrame implements ActionListener, PatternPanelInterface {
 
-    private static SingletonPatternFrame singletonPatternFrame ;
-
+    private static SingletonPatternFrame singletonPatternFrame;
     private JEditorPane singletonText;
     private JPanel panel, singletonPanel, container;
     private JLabel imageLabel, title, projectName, projectLoc;
-    private String text, path;
+    private String text, path, name, pa;
     private ImageIcon image;
-    private JButton backk, create, finish, cancel, browse;
+    private JButton backBtn, create, finish, cancel, browse;
     private JDialog dialog;
-    private JTextField pNameField, pLocField;
-        public JFileChooser j;
-    private String name;
-    private JTextField myTextField;
-    private String pa;
-    
+    private JTextField pNameField, pLocField, myTextField;
+
     private SingletonPatternFrame() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         //_________________MainPanel____________________________________________
-        
         panel = new JPanel();
 
         //________________Layout________________________________________________
@@ -81,23 +72,23 @@ public class SingletonPatternFrame extends JFrame implements ActionListener, Pat
         title = new JLabel("Singleton Pattern");
         title.setFont(new Font("", Font.BOLD, 20));
         //______________________________________________________________________
-        backk = new JButton("< Back");
+        backBtn = new JButton("< Back");
         create = new JButton("Next >");
 
         //______________________________________________________________________
-        backk.setFocusable(false);
+        backBtn.setFocusable(false);
         create.setFocusable(false);
 
         //______________________________________________________________________
-        backk.addActionListener(this);
+        backBtn.addActionListener(this);
         create.addActionListener(this);
 
         //______________________________________________________________________
-        addComponent(c, singletonPanel, backk, 0, 0);
-        addComponent(c, singletonPanel, title, 1, 0);
-        addComponent(c, singletonPanel, singletonText, 1, 1);
-        addComponent(c, singletonPanel, imageLabel, 1, 2);
-        addComponent(c, singletonPanel, create, 2, 3);
+        PatternPanelButton.addComponent(c, singletonPanel, backBtn, 0, 0);
+        PatternPanelButton.addComponent(c, singletonPanel, title, 1, 0);
+        PatternPanelButton.addComponent(c, singletonPanel, singletonText, 1, 1);
+        PatternPanelButton.addComponent(c, singletonPanel, imageLabel, 1, 2);
+        PatternPanelButton.addComponent(c, singletonPanel, create, 2, 3);
 
         //______________________________________________________________________ 
         panel.add(singletonPanel);
@@ -108,46 +99,17 @@ public class SingletonPatternFrame extends JFrame implements ActionListener, Pat
         panel.setVisible(true);
 
     }
-    
-    public static SingletonPatternFrame getInstancFrame()
-    {
-        if(singletonPatternFrame== null) 
+
+    public static SingletonPatternFrame getInstancFrame() {
+        if (singletonPatternFrame == null) {
             singletonPatternFrame = new SingletonPatternFrame();
+        }
         return singletonPatternFrame;
     }
 
     public static SingletonPatternFrame getSingletonPatternFrame() {
         return singletonPatternFrame;
     }
-
-    public JEditorPane getSingletonText() {
-        return singletonText;
-    }
-
-    public JLabel getImageLabel() {
-        return imageLabel;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public ImageIcon getImage() {
-        return image;
-    }
-
-    public JButton getBack() {
-        return backk;
-    }
-
-    public JButton getCreate() {
-        return create;
-    }
-    
 
     public void setText() {
         text = "<b>What it is : </b> \n Ensure a class only has one instance and provide a global point of access to it. "
@@ -159,16 +121,16 @@ public class SingletonPatternFrame extends JFrame implements ActionListener, Pat
         path = "images\\singleton.png";
         return path;
     }
-    
+
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == backk) {
+        if (e.getSource() == backBtn) {
             //singletonPanel.setVisible(false);
             PatternPanelButton.getPan().setVisible(false);
             PatternPanelButton.getInstancePattern().getCategoryPanel().setVisible(false);
             PatternPanelButton.getInstancePattern().getStructuralPanel().setVisible(false);
             PatternPanelButton.getInstancePattern().getBehavioralPanel().setVisible(false);
-            backk.setVisible(true);
+            backBtn.setVisible(true);
             //PatternPanelButton.setVisible(true);
             PatternPanelButton.getInstancePattern().getBack().setVisible(true);
             PatternPanelButton.getInstancePattern().getCreationalPanel().setVisible(true);
@@ -247,7 +209,7 @@ public class SingletonPatternFrame extends JFrame implements ActionListener, Pat
                 @Override
                 public void actionPerformed(ActionEvent ae) {
                     //FileListener.openFolderw();
-                    j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+                    JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
                     j.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                     int r = j.showOpenDialog(null);
                     myTextField = new JTextField();
@@ -268,7 +230,6 @@ public class SingletonPatternFrame extends JFrame implements ActionListener, Pat
             dialog.setVisible(false);
         } else if (e.getSource() == finish) {
 
-            
             if (pNameField.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Folder name is Empty");
                 finish.setEnabled(false);
@@ -295,7 +256,7 @@ public class SingletonPatternFrame extends JFrame implements ActionListener, Pat
 
                 String sourceFolder = "patternFiles\\SingletonPatternFiles";
                 String targetFolder = pLoc.toString();
-                
+
                 File sFile = new File(sourceFolder);
                 // Find files with specified extension
                 File[] sourceFiles = sFile.listFiles(new FilenameFilter() {
@@ -313,7 +274,7 @@ public class SingletonPatternFrame extends JFrame implements ActionListener, Pat
                 // let us copy each file to the target folder
                 for (File fSource : sourceFiles) {
                     File fTarget = new File(new File(targetFolder), fSource.getName());
-                    copyFileUsingStream(fSource, fTarget);
+                    FileListener.copyFileUsingStream(fSource, fTarget);
                     // fSource.delete(); // Uncomment this line if you want source file deleted
                 }
                 //__________________________________________________________________
@@ -329,44 +290,104 @@ public class SingletonPatternFrame extends JFrame implements ActionListener, Pat
             }
         }
     }
-    
-    private static void copyFileUsingStream(File source, File dest) {
-        InputStream is = null;
-        OutputStream os = null;
-        try {
-            is = new FileInputStream(source);
-            os = new FileOutputStream(dest);
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = is.read(buffer)) > 0) {
-                os.write(buffer, 0, length);
-            }
-        } catch (Exception ex) {
-            System.out.println("Unable to copy file:" + ex.getMessage());
-        } finally {
-            try {
-                is.close();
-                os.close();
-            } catch (Exception ex) {
-            }
-        }
-    }
-    
-    
+
     public String getNameFolder() {
         return pNameField.getText();
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     public JPanel getPanel() {
         return panel;
     }
 
-    public void addComponent(GridBagConstraints c, JPanel panel, JComponent comp, int x, int y) {
-        c.gridx = x;
-        c.gridy = y;
-        panel.add(comp, c);
+    public JEditorPane getSingletonText() {
+        return singletonText;
+    }
+
+    public JPanel getSingletonPanel() {
+        return singletonPanel;
+    }
+
+    public JPanel getContainer() {
+        return container;
+    }
+
+    public JLabel getImageLabel() {
+        return imageLabel;
+    }
+
+    public JLabel getProjectName() {
+        return projectName;
+    }
+
+    public JLabel getProjectLoc() {
+        return projectLoc;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPa() {
+        return pa;
+    }
+
+    public ImageIcon getImage() {
+        return image;
+    }
+
+    public JButton getBackBtn() {
+        return backBtn;
+    }
+
+    public JButton getCreate() {
+        return create;
+    }
+
+    public JButton getFinish() {
+        return finish;
+    }
+
+    public JButton getCancel() {
+        return cancel;
+    }
+
+    public JButton getBrowse() {
+        return browse;
+    }
+
+    public JDialog getDialog() {
+        return dialog;
+    }
+
+    public JTextField getpNameField() {
+        return pNameField;
+    }
+
+    public JTextField getpLocField() {
+        return pLocField;
+    }
+
+    public JTextField getMyTextField() {
+        return myTextField;
+    }
+
+    @Override
+    public JTextField getMyTextFiled() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getNamePath() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
-

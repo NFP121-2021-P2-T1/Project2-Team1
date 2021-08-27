@@ -4,16 +4,14 @@
  * and open the template in the editor.
  */
 package FactoryPattern;
+
 import Action.FileListener;
 import static Action.FileListener.addFilesToList;
 import BuilderPattern.PatternPanelButton;
-import BuilderPattern.SplitPane;
 import GraphicInterface.MyGui;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import javax.swing.*;
 import javax.swing.JFrame;
@@ -21,8 +19,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,29 +31,23 @@ import javax.swing.filechooser.FileSystemView;
  *
  * @author Cynthia
  */
-public class MementoPatternFrame extends JFrame implements ActionListener, PatternPanelTemplate {
+public class MementoPatternFrame extends JFrame implements ActionListener, PatternPanelInterface {
 
-    private static MementoPatternFrame mementoPatternFrame ;
-
+    private static MementoPatternFrame mementoPatternFrame;
     private JEditorPane mementoText;
     private JPanel panel, mementoPanel, container;
     private JLabel imageLabel, title, projectName, projectLoc;
-    private String text, path;
+    private String text, path, name, pa;
     private ImageIcon image;
-    private JButton backk, create, finish, cancel, browse;
+    private JButton backBtn, create, finish, cancel, browse;
     private JDialog dialog;
-    private JTextField pNameField, pLocField;
-        public JFileChooser j;
-    private String name;
-    private JTextField myTextField;
-    private String pa;
+    private JTextField pNameField, pLocField, myTextField;
 
     private MementoPatternFrame() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         //_________________MainPanel____________________________________________
-        
         panel = new JPanel();
 
         //________________Layout________________________________________________
@@ -82,23 +72,23 @@ public class MementoPatternFrame extends JFrame implements ActionListener, Patte
         title = new JLabel("Memento Pattern");
         title.setFont(new Font("", Font.BOLD, 20));
         //______________________________________________________________________
-        backk = new JButton("< Back");
+        backBtn = new JButton("< Back");
         create = new JButton("Next >");
 
         //______________________________________________________________________
-        backk.setFocusable(false);
+        backBtn.setFocusable(false);
         create.setFocusable(false);
 
         //______________________________________________________________________
-        backk.addActionListener(this);
+        backBtn.addActionListener(this);
         create.addActionListener(this);
 
         //______________________________________________________________________
-        addComponent(c, mementoPanel, backk, 0, 0);
-        addComponent(c, mementoPanel, title, 1, 0);
-        addComponent(c, mementoPanel, mementoText, 1, 1);
-        addComponent(c, mementoPanel, imageLabel, 1, 2);
-        addComponent(c, mementoPanel, create, 2, 3);
+        PatternPanelButton.addComponent(c, mementoPanel, backBtn, 0, 0);
+        PatternPanelButton.addComponent(c, mementoPanel, title, 1, 0);
+        PatternPanelButton.addComponent(c, mementoPanel, mementoText, 1, 1);
+        PatternPanelButton.addComponent(c, mementoPanel, imageLabel, 1, 2);
+        PatternPanelButton.addComponent(c, mementoPanel, create, 2, 3);
 
         //______________________________________________________________________ 
         panel.add(mementoPanel);
@@ -109,46 +99,17 @@ public class MementoPatternFrame extends JFrame implements ActionListener, Patte
         panel.setVisible(true);
 
     }
-    
-    public static MementoPatternFrame getInstancFrame()
-    {
-        if(mementoPatternFrame== null) 
+
+    public static MementoPatternFrame getInstancFrame() {
+        if (mementoPatternFrame == null) {
             mementoPatternFrame = new MementoPatternFrame();
+        }
         return mementoPatternFrame;
     }
 
     public static MementoPatternFrame getBuilderPatternFrame() {
         return mementoPatternFrame;
     }
-
-    public JEditorPane getMementoText() {
-        return mementoText;
-    }
-
-    public JLabel getImageLabel() {
-        return imageLabel;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public ImageIcon getImage() {
-        return image;
-    }
-
-    public JButton getBack() {
-        return backk;
-    }
-
-    public JButton getCreate() {
-        return create;
-    }
-    
 
     public void setText() {
         text = "<b>What it is : </b> \n Without violating encapsulation, capture and externalize an object's internal state  "
@@ -160,16 +121,16 @@ public class MementoPatternFrame extends JFrame implements ActionListener, Patte
         path = "images\\memento.png";
         return path;
     }
-    
+
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == backk) {
-           PatternPanelButton.getPan().setVisible(false);
+        if (e.getSource() == backBtn) {
+            PatternPanelButton.getPan().setVisible(false);
             PatternPanelButton.getInstancePattern().getCategoryPanel().setVisible(false);
             PatternPanelButton.getInstancePattern().getStructuralPanel().setVisible(false);
             PatternPanelButton.getInstancePattern().getCreationalPanel().setVisible(false);
             PatternPanelButton.getInstancePattern().getBack().setVisible(true);
-            backk.setVisible(true);
+            backBtn.setVisible(true);
             PatternPanelButton.getInstancePattern().getBack().setVisible(true);
             PatternPanelButton.getInstancePattern().getBehavioralPanel().setVisible(true);
 
@@ -248,7 +209,7 @@ public class MementoPatternFrame extends JFrame implements ActionListener, Patte
                 @Override
                 public void actionPerformed(ActionEvent ae) {
                     //FileListener.openFolderw();
-                    j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+                    JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
                     j.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                     int r = j.showOpenDialog(null);
                     myTextField = new JTextField();
@@ -291,9 +252,9 @@ public class MementoPatternFrame extends JFrame implements ActionListener, Patte
                     Logger.getLogger(BuilderPatternFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                String sourceFolder = "patternFiles\\BuilderPatternFiles";
+                String sourceFolder = "patternFiles\\MementoPatternFiles";
                 String targetFolder = pLoc.toString();
-                
+
                 File sFile = new File(sourceFolder);
                 // Find files with specified extension
                 File[] sourceFiles = sFile.listFiles(new FilenameFilter() {
@@ -308,11 +269,10 @@ public class MementoPatternFrame extends JFrame implements ActionListener, Patte
                     }
                 });
 
-                // let us copy each file to the target folder
+                // copy each file to the target folder
                 for (File fSource : sourceFiles) {
                     File fTarget = new File(new File(targetFolder), fSource.getName());
-                    copyFileUsingStream(fSource, fTarget);
-                    // fSource.delete(); // Uncomment this line if you want source file deleted
+                    FileListener.copyFileUsingStream(fSource, fTarget);
                 }
                 //__________________________________________________________________
 
@@ -327,42 +287,108 @@ public class MementoPatternFrame extends JFrame implements ActionListener, Patte
             }
         }
     }
-    
-    private static void copyFileUsingStream(File source, File dest) {
-        InputStream is = null;
-        OutputStream os = null;
-        try {
-            is = new FileInputStream(source);
-            os = new FileOutputStream(dest);
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = is.read(buffer)) > 0) {
-                os.write(buffer, 0, length);
-            }
-        } catch (Exception ex) {
-            System.out.println("Unable to copy file:" + ex.getMessage());
-        } finally {
-            try {
-                is.close();
-                os.close();
-            } catch (Exception ex) {
-            }
-        }
-    }
-    
+
     public String getNameFolder() {
         return pNameField.getText();
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     public JPanel getPanel() {
         return panel;
     }
 
-    public void addComponent(GridBagConstraints c, JPanel panel, JComponent comp, int x, int y) {
-        c.gridx = x;
-        c.gridy = y;
-        panel.add(comp, c);
+    public static MementoPatternFrame getMementoPatternFrame() {
+        return mementoPatternFrame;
+    }
+
+    public JEditorPane getMementoText() {
+        return mementoText;
+    }
+
+    public JPanel getMementoPanel() {
+        return mementoPanel;
+    }
+
+    public JPanel getContainer() {
+        return container;
+    }
+
+    public JLabel getImageLabel() {
+        return imageLabel;
+    }
+
+    public JLabel getProjectName() {
+        return projectName;
+    }
+
+    public JLabel getProjectLoc() {
+        return projectLoc;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPa() {
+        return pa;
+    }
+
+    public ImageIcon getImage() {
+        return image;
+    }
+
+    public JButton getBackBtn() {
+        return backBtn;
+    }
+
+    public JButton getCreate() {
+        return create;
+    }
+
+    public JButton getFinish() {
+        return finish;
+    }
+
+    public JButton getCancel() {
+        return cancel;
+    }
+
+    public JButton getBrowse() {
+        return browse;
+    }
+
+    public JDialog getDialog() {
+        return dialog;
+    }
+
+    public JTextField getpNameField() {
+        return pNameField;
+    }
+
+    public JTextField getpLocField() {
+        return pLocField;
+    }
+
+    public JTextField getMyTextField() {
+        return myTextField;
+    }
+
+    @Override
+    public JTextField getMyTextFiled() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getNamePath() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -1,10 +1,10 @@
 package BuilderPattern;
 
-import FactoryPattern.PatternPanelTemplate;
 import FactoryPattern.PatternsFactory;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import FactoryPattern.PatternPanelInterface;
 
 /**
  *
@@ -21,13 +21,12 @@ public class PatternPanelButton implements ActionListener {
     private JButton decoratorBtn, compositeBtn;
     private JButton mementoBtn, visitorBtn;
     private JButton back;
-    private PatternPanelTemplate pat;
+    private PatternPanelInterface pat;
     private static JPanel pan;
 
-    PatternsFactory factory;
+    private PatternsFactory factory;
 
     private PatternPanelButton() {
-        //this.factory = getInstanceFactory();
         this.factory = new PatternsFactory();
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
@@ -81,7 +80,7 @@ public class PatternPanelButton implements ActionListener {
 
         //______________________Behavioral Pattern________________________________________________
         mementoBtn = new JButton("Memento Pattern");
-        visitorBtn = new JButton("Vistor Pattern");
+        visitorBtn = new JButton("Visitor Pattern");
 
         mementoBtn.setPreferredSize(new Dimension(150, 100));
         visitorBtn.setPreferredSize(new Dimension(150, 100));
@@ -211,8 +210,6 @@ public class PatternPanelButton implements ActionListener {
             behavioralPanel.setVisible(false);
             back.setVisible(false);
         } else if (e.getSource() == decoratorBtn) {
-            //pat = DecoratorPatternFrame.getInstancFrame();
-            //pan = pat.getPanel();
             pat = factory.getPattern(decoratorBtn.getText());
             pan = pat.getPanel();
             mainPanel.add(pan);
@@ -224,8 +221,6 @@ public class PatternPanelButton implements ActionListener {
             back.setVisible(false);
 
         } else if (e.getSource() == mementoBtn) {
-            //pat = MementoPatternFrame.getInstancFrame();
-            //pan = pat.getPanel();
             pat = factory.getPattern(mementoBtn.getText());
             pan = pat.getPanel();
             mainPanel.add(pan);
@@ -236,8 +231,6 @@ public class PatternPanelButton implements ActionListener {
             behavioralPanel.setVisible(false);
             back.setVisible(false);
         } else if (e.getSource() == visitorBtn) {
-            //pat = VisitorPatternFrame.getInstancFrame();
-            //pan = pat.getPanel();
             pat = factory.getPattern(visitorBtn.getText());
             pan = pat.getPanel();
             mainPanel.add(pan);
@@ -251,7 +244,7 @@ public class PatternPanelButton implements ActionListener {
 
     }
 
-    public void addComponent(GridBagConstraints c, JPanel panel, JComponent comp, int x, int y) {
+    public static void addComponent(GridBagConstraints c, JPanel panel, JComponent comp, int x, int y) {
         c.gridx = x;
         c.gridy = y;
         panel.add(comp, c);

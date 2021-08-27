@@ -5,14 +5,13 @@
  */
 package FactoryPattern;
 
+import Action.FileListener;
 import static Action.FileListener.addFilesToList;
 import BuilderPattern.PatternPanelButton;
 import GraphicInterface.MyGui;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import javax.swing.*;
 import javax.swing.JFrame;
@@ -20,8 +19,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,26 +31,19 @@ import javax.swing.filechooser.FileSystemView;
  *
  * @author Cynthia
  */
-public class DecoratorPatternFrame extends JFrame implements ActionListener, PatternPanelTemplate {
+public class DecoratorPatternFrame extends JFrame implements ActionListener, PatternPanelInterface {
 
     private static DecoratorPatternFrame decoratorPatternFrame;
 
-    //private JPanel panel, decoratorPanel;
-    //private JEditorPane decoratorText;
-    private JPanel panel, decoratorPanel, container;
     private JEditorPane decoratorText;
+    private JPanel panel, decoratorPanel, container;
     private JLabel imageLabel, title, projectName, projectLoc;
-    private String text, path;
+    private String text, path, name, pa;
     private ImageIcon image;
-    private JButton backk, create, finish, cancel,browse;
+    private JButton backBtn, create, finish, cancel, browse;
     private JDialog dialog;
-    private JTextField pNameField, pLocField;
-        public JFileChooser j;
-    private String name;
-    private JTextField myTextField;
-    private String pa;
-    
-    
+    private JTextField pNameField, pLocField, myTextField;
+
     private DecoratorPatternFrame() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -83,23 +73,23 @@ public class DecoratorPatternFrame extends JFrame implements ActionListener, Pat
         title = new JLabel("Decorator Pattern");
         title.setFont(new Font("", Font.BOLD, 20));
         //______________________________________________________________________
-        backk = new JButton("< Back");
+        backBtn = new JButton("< Back");
         create = new JButton("Next >");
 
         //______________________________________________________________________
-        backk.setFocusable(false);
+        backBtn.setFocusable(false);
         create.setFocusable(false);
 
         //______________________________________________________________________
-        backk.addActionListener(this);
+        backBtn.addActionListener(this);
         create.addActionListener(this);
 
         //______________________________________________________________________
-        addComponent(c, decoratorPanel, backk, 0, 0);
-        addComponent(c, decoratorPanel, title, 1, 0);
-        addComponent(c, decoratorPanel, decoratorText, 1, 1);
-        addComponent(c, decoratorPanel, imageLabel, 1, 2);
-        addComponent(c, decoratorPanel, create, 2, 3);
+        PatternPanelButton.addComponent(c, decoratorPanel, backBtn, 0, 0);
+        PatternPanelButton.addComponent(c, decoratorPanel, title, 1, 0);
+        PatternPanelButton.addComponent(c, decoratorPanel, decoratorText, 1, 1);
+        PatternPanelButton.addComponent(c, decoratorPanel, imageLabel, 1, 2);
+        PatternPanelButton.addComponent(c, decoratorPanel, create, 2, 3);
 
         //______________________________________________________________________ 
         panel.add(decoratorPanel);
@@ -122,34 +112,6 @@ public class DecoratorPatternFrame extends JFrame implements ActionListener, Pat
         return decoratorPatternFrame;
     }
 
-    public JEditorPane getDecoratorText() {
-        return decoratorText;
-    }
-
-    public JLabel getImageLabel() {
-        return imageLabel;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public ImageIcon getImage() {
-        return image;
-    }
-
-    public JButton getBack() {
-        return backk;
-    }
-
-    public JButton getCreate() {
-        return create;
-    }
-
     public void setText() {
         text = "<b>What it is : </b> \n Attach additional responsibilities to an object dynamically. "
                 + "Provide a flexible alternative to sub-classing for extending functionality.";
@@ -163,13 +125,13 @@ public class DecoratorPatternFrame extends JFrame implements ActionListener, Pat
 
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == backk) {
+        if (e.getSource() == backBtn) {
             PatternPanelButton.getPan().setVisible(false);
             PatternPanelButton.getInstancePattern().getCategoryPanel().setVisible(false);
             PatternPanelButton.getInstancePattern().getBehavioralPanel().setVisible(false);
             PatternPanelButton.getInstancePattern().getCreationalPanel().setVisible(false);
             PatternPanelButton.getInstancePattern().getBack().setVisible(true);
-            backk.setVisible(true);
+            backBtn.setVisible(true);
             PatternPanelButton.getInstancePattern().getBack().setVisible(true);
             PatternPanelButton.getInstancePattern().getStructuralPanel().setVisible(true);
         } else if (e.getSource() == create) {
@@ -247,7 +209,7 @@ public class DecoratorPatternFrame extends JFrame implements ActionListener, Pat
                 @Override
                 public void actionPerformed(ActionEvent ae) {
                     //FileListener.openFolderw();
-                    j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+                    JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
                     j.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                     int r = j.showOpenDialog(null);
                     myTextField = new JTextField();
@@ -293,14 +255,14 @@ public class DecoratorPatternFrame extends JFrame implements ActionListener, Pat
 
                 String sourceFolder = "patternFiles\\DecoratorPatternFiles";
                 String targetFolder = pLoc.toString();
-                
+
                 File sFile = new File(sourceFolder);
                 // Find files with specified extension
                 File[] sourceFiles = sFile.listFiles(new FilenameFilter() {
 
                     @Override
                     public boolean accept(File dir, String name) {
-                        if (name.endsWith(".java")) {// change this to your extension
+                        if (name.endsWith(".java")) {
                             return true;
                         } else {
                             return false;
@@ -308,11 +270,10 @@ public class DecoratorPatternFrame extends JFrame implements ActionListener, Pat
                     }
                 });
 
-                // let us copy each file to the target folder
+                // copy each file to the target folder
                 for (File fSource : sourceFiles) {
                     File fTarget = new File(new File(targetFolder), fSource.getName());
-                    copyFileUsingStream(fSource, fTarget);
-                    // fSource.delete(); // Uncomment this line if you want source file deleted
+                    FileListener.copyFileUsingStream(fSource, fTarget);
                 }
                 //__________________________________________________________________
 
@@ -328,43 +289,98 @@ public class DecoratorPatternFrame extends JFrame implements ActionListener, Pat
         }
     }
 
-    //outside
-    private static void copyFileUsingStream(File source, File dest) {
-        InputStream is = null;
-        OutputStream os = null;
-        try {
-            is = new FileInputStream(source);
-            os = new FileOutputStream(dest);
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = is.read(buffer)) > 0) {
-                os.write(buffer, 0, length);
-            }
-        } catch (Exception ex) {
-            System.out.println("Unable to copy file:" + ex.getMessage());
-        } finally {
-            try {
-                is.close();
-                os.close();
-            } catch (Exception ex) {
-            }
-        }
-    }
-
-    public String getNameFolder() {
-        return pNameField.getText();
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public JPanel getPanel() {
         return panel;
     }
 
-    public void addComponent(GridBagConstraints c, JPanel panel, JComponent comp, int x, int y) {
-        c.gridx = x;
-        c.gridy = y;
-        panel.add(comp, c);
+    public JEditorPane getDecoratorText() {
+        return decoratorText;
     }
 
+    public JPanel getDecoratorPanel() {
+        return decoratorPanel;
+    }
+
+    public JPanel getContainer() {
+        return container;
+    }
+
+    public JLabel getImageLabel() {
+        return imageLabel;
+    }
+
+    public JLabel getProjectName() {
+        return projectName;
+    }
+
+    public JLabel getProjectLoc() {
+        return projectLoc;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPa() {
+        return pa;
+    }
+
+    public ImageIcon getImage() {
+        return image;
+    }
+
+    public JButton getBackBtn() {
+        return backBtn;
+    }
+
+    public JButton getCreate() {
+        return create;
+    }
+
+    public JButton getFinish() {
+        return finish;
+    }
+
+    public JButton getCancel() {
+        return cancel;
+    }
+
+    public JButton getBrowse() {
+        return browse;
+    }
+
+    public JDialog getDialog() {
+        return dialog;
+    }
+
+    public JTextField getpNameField() {
+        return pNameField;
+    }
+
+    public JTextField getpLocField() {
+        return pLocField;
+    }
+
+    public JTextField getMyTextField() {
+        return myTextField;
+    }
+
+    @Override
+    public JTextField getMyTextFiled() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getNamePath() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

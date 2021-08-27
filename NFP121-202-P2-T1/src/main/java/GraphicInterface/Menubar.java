@@ -4,7 +4,6 @@ import Action.*;
 import BuilderPattern.*;
 import Command.*;
 import MementoPattern.*;
-import FactoryPattern.PatternPanelTemplate;
 import java.awt.*;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
@@ -33,7 +32,7 @@ public class Menubar {
     private JMenuItem about, copyright;
 
     private Invoker command;
-
+    private static File directory;
     private Menubar() {
         command = new Invoker();
         menubar = new JMenuBar();
@@ -280,8 +279,8 @@ public class Menubar {
 
         //______________________________________________________________________
         run.setAccelerator(KeyStroke.getKeyStroke("shift F6"));
-        PatternPanelTemplate patt;
         run.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
 
                 JTabbedPane tabbedPane = SplitPane.getInstanSplitPane().getRighTabbedPane();
@@ -295,9 +294,20 @@ public class Menubar {
                     File f = new File(fn);
                     String folderPath = f.getParent();
                     //folder path
-                    File directory = new File(folderPath);
-                    FileFilter fileFilter = file -> !file.isDirectory() && file.getName()
-                            .endsWith(".java");
+                    directory = new File(folderPath);
+                    FileFilter fileFilter = new FileFilter() {
+                        //Override accept method
+                        public boolean accept(File file) {
+
+                            //if the file is not a directory and the file extension is .java return true, else false
+                            if (!file.isDirectory() && file.getName()
+                                    .endsWith(".java")) {
+                                return true;
+                            }
+                            return false;
+                        }
+                    };
+
                     ArrayList<File> projectFiles = new ArrayList<>(Arrays.asList(directory.listFiles(fileFilter)));
 
                     try {

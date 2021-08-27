@@ -11,20 +11,7 @@ package FactoryPattern;
  */
 public class PatternsFactory {
 
-    //private static PatternF patternFact;
-
-    /*private PatternF() {
-
-    }*/
-
-    /*public static PatternF getInstanceFactory() {
-        if (patternFact == null) {
-            patternFact = new PatternF();
-        }
-        return patternFact;
-    }*/
-
-    public PatternPanelTemplate getPattern(String name) {
+    public PatternPanelInterface getPattern(String name) {
         if (name == null) {
             return null;
         } else if (name.equals("Builder Pattern")) {

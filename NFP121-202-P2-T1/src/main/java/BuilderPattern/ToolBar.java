@@ -1,7 +1,6 @@
 package BuilderPattern;
 
 import Action.*;
-import FactoryPattern.PatternPanelTemplate;
 import GraphicInterface.MyGui;
 import MementoPattern.*;
 import java.awt.event.*;
@@ -20,6 +19,8 @@ public class ToolBar {
     private JToolBar toolBar;
     private JButton toolbar_newFile, toolbar_newProject, toolbar_saveAll;
     private JButton toolbar_undo, toolbar_redo, toolbar_run, toolbar_compile;
+    private static File directory;
+
 
     public ToolBar() {
         //_______Creating Toolbar_______________________________________
@@ -86,7 +87,7 @@ public class ToolBar {
                 FileListener.SaveAll_Action();
             }
         });
-        
+
         toolbar_undo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -136,8 +137,7 @@ public class ToolBar {
                 }
             }
         });
-        
-        PatternPanelTemplate patt;
+
         toolbar_run.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -153,9 +153,20 @@ public class ToolBar {
                     File f = new File(fn);
                     String folderPath = f.getParent();
                     //folder path
-                    File directory = new File(folderPath);
-                    FileFilter fileFilter = file -> !file.isDirectory() && file.getName()
-                            .endsWith(".java");
+                    directory = new File(folderPath);
+                    FileFilter fileFilter = new FileFilter() {
+                        //Override accept method
+                        public boolean accept(File file) {
+
+                            //if the file is not a directory and the file extension is .java return true, else false
+                            if (!file.isDirectory() && file.getName()
+                                    .endsWith(".java")) {
+                                return true;
+                            }
+                            return false;
+                        }
+                    };
+
                     ArrayList<File> projectFiles = new ArrayList<>(Arrays.asList(directory.listFiles(fileFilter)));
 
                     try {
@@ -169,6 +180,10 @@ public class ToolBar {
         });
 
     }
+       public static File getDirectory() {
+        return directory;
+    }
+
 
     public JToolBar getToolBar() {
         return toolBar;
